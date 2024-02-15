@@ -1,20 +1,41 @@
+
+
 /* style.css - Custom styles complementing Tailwind CSS and DaisyUI */
 :root {
-    --primary-color: #22c55e; /* Green */
-    --secondary-color: #8b5cf6; /* Purple */
+    --primary-color: #9112e0; /* Green */
+    --secondary-color: #5c9cf6; /* Purple */
     --bg-color: #000000; /* Black */
     --text-color: #000000; /* White */
     --container-color: #1e293b; /* Dark Blue */
 }
 
 body {
+    position: relative;
     background-image: url('./bg.webp');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    margin: 0;
+    min-height: 100vh; /* Ensure full viewport height coverage */
 }
 
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1; /* Overlay above the background */
+}
+
+/* Directly styling child elements for clarity */
+.content-wrapper {
+    position: relative;
+    z-index: 2; /* Content above the overlay */
+}
 /* Add an overlay for text visibility if needed */
 .overlay {
     background-color: rgba(0, 0, 0, 0.5); /* Adjust the alpha for opacity */
@@ -28,50 +49,7 @@ header {
     background-color: var(--container-color);
 }
 
-.btn-primary {
-    background-color: var(--primary-color);
-}
 
-.btn-secondary {
-    background-color: var(--secondary-color);
-}
-
-/* Additional classes for hover effects can be added similarly, using the appropriate Tailwind hover utilities */
-
-
-/* Custom animations (if needed beyond Tailwind's scope) */
-@keyframes buttonHoverAnimation {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.05);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-
-/* Applying custom animations to buttons with a specific class */
-.custom-animate-button:hover {
-    animation: buttonHoverAnimation 0.5s ease-in-out forwards;
-}
-
-/* Custom shadows or effects not covered by Tailwind */
-.custom-shadow {
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
-}
-
-/* Specific layout adjustments */
-.custom-spacing {
-    margin: 20px 0;
-    padding: 20px;
-}
-
-/* If you need to adjust elements that are not easily targeted with Tailwind classes */
-.custom-border-radius {
-    border-radius: 12px;
-}
 
 /* Responsive design adjustments */
 @media (max-width: 768px) {

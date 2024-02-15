@@ -186,33 +186,33 @@ function calculatePriceForAccount(challengeType, swapType, stepType, sizeOfAccou
     function addAccount() {
         accountCount++;
         const accountDiv = document.createElement('div');
-        accountDiv.className = 'account bg-white shadow p-4 rounded-lg mb-4 space-y-4';
+        accountDiv.className = 'account bg-purple-500 shadow p-4 rounded-lg mb-4 space-y-4';
     
     accountDiv.innerHTML = `
-    <div class="flex flex-row">
-    <div class="left-options">
+    <div class="flex flex-row ">
+    <div class="left-options space-y-4">
         <div class="option-group text-black">
-            <label>Challenge Type:</label>
-            <select class="challengeType">
+            <label class="text-white">Challenge Type:</label>
+            <select class="challengeType rounded-md border-gray-300">
                 <option value="stellar">Stellar</option>
                 <option value="evaluation">Evaluation</option>
                 <option value="express">Express</option>
             </select>
         </div>
         <div class="option-group text-black">
-            <label>Swap Type:</label>
-            <select class="swapType">
+            <label class="text-white">Swap Type:</label>
+            <select class="swapType rounded-md border-gray-300">
                 <option value="swap">Swap</option>
                 <option value="swapFree">Swap Free</option>
             </select>
         </div>
         <div class="option-group text-black">
-            <label>Step Type:</label>
-            <select class="stepType"></select>
+            <label class="text-white">Step Type:</label>
+            <select class="stepType rounded-md border-gray-300"></select>
         </div>
         <div class="option-group text-black">
-            <label>Account Size:</label>
-            <select class="sizeOfAccount">
+            <label class="text-white">Account Size:</label>
+            <select class="sizeOfAccount rounded-md border-gray-300">
                 <option value="6K">6K</option>
                 <option value="15K">15K</option>
                 <option value="25K">25K</option>
@@ -222,25 +222,26 @@ function calculatePriceForAccount(challengeType, swapType, stepType, sizeOfAccou
             </select>
         </div>
     </div>
-    <div class="right-options ml-40">
+    <div class="right-options ml-40 space-y-4">
         <div class="checkbox-group text-black">
-            <input type="checkbox" id="lifeTimePayout-${accountCount}" name="lifeTimePayout" value="lifeTimePayout" data-label="95% Life Time Payout">
-            <label for="lifeTimePayout-${accountCount}">95% Life Time Payout</label>
+            <input type="checkbox" id="lifeTimePayout-${accountCount}" name="lifeTimePayout" value="lifeTimePayout" data-label="95% Life Time Payout" class="rounded text-blue-500 focus:ring-blue-400">
+            <label for="lifeTimePayout-${accountCount}" class="text-white">95% Life Time Payout</label>
         </div>
         <div class="checkbox-group text-black">
-            <input type="checkbox" id="noMinimumDays-${accountCount}" name="noMinimumDays" value="noMinimumDays" data-label="No Minimum Trading Days">
-            <label for="noMinimumDays-${accountCount}">No Minimum Trading Days</label>
+            <input type="checkbox" id="noMinimumDays-${accountCount}" name="noMinimumDays" value="noMinimumDays" data-label="No Minimum Trading Days" class="rounded text-blue-500 focus:ring-blue-400">
+            <label for="noMinimumDays-${accountCount}" class="text-white">No Minimum Trading Days</label>
         </div>
         <div class="checkbox-group text-black">
-            <input type="checkbox" id="125Refund-${accountCount}" name="125Refund" value="125Refund" data-label="125% Refund">
-            <label for="125Refund-${accountCount}">125% Refund</label>
+            <input type="checkbox" id="125Refund-${accountCount}" name="125Refund" value="125Refund" data-label="125% Refund" class="rounded text-blue-500 focus:ring-blue-400">
+            <label for="125Refund-${accountCount}" class="text-white">125% Refund</label>
         </div>
         <div class="checkbox-group text-black">
-            <input type="checkbox" id="refund-${accountCount}" name="refund" value="refund" data-label="150% Refund">
-            <label for="refund-${accountCount}">150% Refund</label>
+            <input type="checkbox" id="refund-${accountCount}" name="refund" value="refund" data-label="150% Refund" class="rounded text-blue-500 focus:ring-blue-400">
+            <label for="refund-${accountCount}" class="text-white">150% Refund</label>
         </div>
     </div>
-    </div>
+</div>
+
 `;
 
 
@@ -285,7 +286,7 @@ function calculatePriceForAccount(challengeType, swapType, stepType, sizeOfAccou
         const removeBtn = document.createElement('button');
         removeBtn.textContent = 'Remove This Account';
         // Apply DaisyUI styles for the remove button, with background and hover effects
-        removeBtn.className = 'btn btn-primary w-full mt-4 rounded-full bg-red-500 hover:bg-red-600 text-white';
+        removeBtn.className = 'btn btn-primary w-full mt-4 rounded-full bg-yellow-500 hover:bg-red-300 text-black';
         removeBtn.onclick = function() {
             accountsContainer.removeChild(accountDiv);
             accountCount--;
@@ -315,83 +316,7 @@ downloadInvoiceBtn.addEventListener('click', function() {
 });
 
 
-function generatePDF(trxid) {
-    const { jsPDF } = window.jspdf; // Ensure jsPDF is correctly loaded
-    const doc = new jsPDF();
 
-    doc.setFontSize(16);
-    doc.setFont(undefined, 'bold');
-    doc.setTextColor(128, 0, 128); // Set title color
-    doc.text("FundedNext Payment Partner", 105, 20, null, null, 'center'); // Center title
-
-    // Draw title underline
-    doc.setDrawColor(128, 0, 128); // Purple line color
-    doc.setLineWidth(0.5);
-    doc.line(20, 25, 190, 25); // Title underline
-
-    let yPos = 35; // Start position for items listing
-
-    doc.setFontSize(12);
-    doc.setFont(undefined, 'normal');
-    doc.setTextColor(0, 0, 0);
-    doc.text("ITEMS", 20, yPos);
-    doc.text("PRICE", 160, yPos, { align: "right" });
-
-    yPos += 10; // Space between column titles and first item
-
-    // Loop through each account to add their details to the PDF
-    document.querySelectorAll('.account').forEach((account, index) => {
-        const challengeType = account.querySelector('.challengeType').value;
-        const swapType = account.querySelector('.swapType').value;
-        const stepType = account.querySelector('.stepType').value;
-        const sizeOfAccount = account.querySelector('.sizeOfAccount').value;
-        const addons = Array.from(account.querySelectorAll('input[type="checkbox"]:checked')).map(addon => addon.getAttribute('data-label')).join(', ');
-
-        let itemDetails = `Account ${index + 1}: ${challengeType}, ${swapType}, ${stepType}, Size: ${sizeOfAccount}`;
-        if (addons) itemDetails += `, Addons: ${addons}`;
-
-        let price = calculatePriceForAccount(challengeType, swapType, stepType, sizeOfAccount, account.querySelectorAll('input[type="checkbox"]'));
-        
-        // Split long item details if necessary
-        let splitItemDetails = doc.splitTextToSize(itemDetails, 85); // Adjust width to fit before the line
-
-        // Check if adding the content will exceed the page height
-        if (yPos + (splitItemDetails.length + 1) * 6 > 280) { // Adjust the value based on your page size
-            doc.addPage(); // Add a new page
-            yPos = 10; // Reset yPos for the new page
-        }
-
-        doc.text(splitItemDetails, 20, yPos);
-        doc.text(`$${price.toFixed(2)}`, 160, yPos, { align: "right" });
-
-        yPos += (splitItemDetails.length + 1) * 6; // Adjust Y position based on the number of lines
-    });
-
-    // Ensure dynamic adjustment of the separation line
-    doc.setDrawColor(0); // Black color for separation line
-    doc.line(135, 28, 135, yPos); // Adjust line to match items length
-
-    // Space before displaying TRXID
-    yPos += 10; 
-    doc.text(`TRXID: ${trxid}`, 20, yPos);
-
-    // Formatting for Official Discount and Total Price After Discount
-    yPos += 10; // Additional space before showing the discount
-    // Extract and format discount and total price information
-    const totalPriceElement = document.getElementById('totalPrice').innerHTML;
-    const [officialDiscountText, totalPriceAfterDiscountText] = totalPriceElement.split('<br>').map(text => text.trim());
-
-    // Adjust font for discount and total price details
-    doc.setFontSize(14);
-    doc.setFont(undefined, 'bold');
-    doc.text(officialDiscountText, 20, yPos);
-
-    yPos += 10; // Space between discount and total price text
-    doc.text(totalPriceAfterDiscountText, 20, yPos);
-
-    // Save the PDF document
-    doc.save('FundedNext_Invoice.pdf');
-}
 
     addAccountBtn.addEventListener('click', addAccount);
     // Initialize the first account

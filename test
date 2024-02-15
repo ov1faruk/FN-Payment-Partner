@@ -283,7 +283,7 @@ function calculatePriceForAccount(challengeType, swapType, stepType, sizeOfAccou
         const removeBtn = document.createElement('button');
         removeBtn.textContent = 'Remove This Account';
         // Apply DaisyUI styles for the remove button, with background and hover effects
-        removeBtn.className = 'btn btn-primary w-full mt-4 rounded-full bg-red-500 hover:bg-red-600 text-white';
+        removeBtn.className = 'btn btn-primary w-full mt-4 rounded-full bg-yellow hover:bg-yellow text-white';
         removeBtn.onclick = function() {
             accountsContainer.removeChild(accountDiv);
             accountCount--;
