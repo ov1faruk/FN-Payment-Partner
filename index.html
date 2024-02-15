@@ -20,17 +20,26 @@
 </head>
 <body class="bg-gray-900 font-sans leading-normal tracking-normal text-white">
     <div class="content-wrapper">
-        <header class="text-center p-20 shadow flex justify-center items-center flex-col sm:flex-row" style="background: rgba(0, 0, 0, 0.5);">
-
-            <!-- Logo Image -->
-            <img src="https://fundednext.fra1.digitaloceanspaces.com/competion-funded-next-logo.svg" alt="Logo" class="h-16 w-auto mr-0 sm:mr-20 mb-2 sm:mb-0">
-           
-            <h1 id="pageTitle" class="text-5xl font-bold mb-2.5" style="background: linear-gradient(to right, rgb(247, 172, 247), rgb(180, 180, 255), white); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
-                Payment Partner Portal
-              </h1>
-              
+        <header class="text-center p-20 mb-4 shadow flex flex-col justify-center items-center" style="background: rgba(0, 0, 0, 0.5);">
+            <!-- Logo and Title Container -->
+            <div class="flex justify-center items-center w-full">
+                <!-- Logo Image -->
+                <img src="https://fundednext.fra1.digitaloceanspaces.com/competion-funded-next-logo.svg" alt="Logo" class="h-16 w-auto">
+                <!-- Title -->
+                <h1 id="pageTitle" class="text-5xl font-bold ml-4 mb-2.5" style="background: linear-gradient(to right, rgb(247, 172, 247), rgb(180, 180, 255), white); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                    Payment Partner Portal
+                </h1>
+            </div>
             
+            <!-- Social Buttons -->
+            <div class="social-buttons flex justify-center mt-4">
+                <a href="https://facebook.com" target="_blank" class="mx-2 bg-blue-600 text-white font-bold py-2 px-4 rounded-full shadow-lg hover:bg-blue-700 transition duration-300 ease-in-out" style="box-shadow: 0 0 5px #4267B2;">Facebook</a>
+                <a href="https://twitter.com" target="_blank" class="mx-2 bg-blue-400 text-white font-bold py-2 px-4 rounded-full shadow-lg hover:bg-blue-500 transition duration-300 ease-in-out" style="box-shadow: 0 0 5px #1DA1F2;">Twitter</a>
+                <a href="https://discord.com" target="_blank" class="mx-2 bg-indigo-500 text-white font-bold py-2 px-4 rounded-full shadow-lg hover:bg-indigo-600 transition duration-300 ease-in-out" style="box-shadow: 0 0 5px #7289DA;">Discord</a>
+            </div>
         </header>
+        
+        
         <!-- TradingView Widget BEGIN -->
 <div class="tradingview-widget-container">
     <div class="tradingview-widget-container__widget"></div>
