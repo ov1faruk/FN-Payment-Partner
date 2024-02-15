@@ -10,6 +10,7 @@
 }
 
 body {
+    font-family: 'Poppins', sans-serif;
     position: relative;
     background-image: url('./bg.webp');
     background-size: cover;
@@ -58,3 +59,40 @@ header {
     }
 }
 
+/* Hide the actual checkbox input */
+.custom-checkbox {
+    display: none;
+  }
+  
+  /* Custom checkbox design */
+  .custom-checkbox + label {
+    position: relative;
+    padding-left: 2rem;
+    cursor: pointer;
+  }
+  
+  /* Box for the custom checkbox */
+  .custom-checkbox + label::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 2px solid purple;
+    border-radius: 0.25rem;
+    background-color: transparent;
+  }
+  
+  /* Checkmark for the custom checkbox */
+  .custom-checkbox:checked + label::after {
+    content: '✓';
+    position: absolute;
+    left: 0.4rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1rem;
+    color: purple;
+  }
+  

@@ -223,19 +223,19 @@ function calculatePriceForAccount(challengeType, swapType, stepType, sizeOfAccou
         </div>
     </div>
     <div class="right-options space-y-4 flex-1 mt-4 md:mt-0 md:ml-40">
-        <div class="checkbox-group">
-            <input type="checkbox" id="lifeTimePayout-1" name="lifeTimePayout" value="lifeTimePayout" class="rounded text-blue-500 focus:ring-blue-400" checked>
+        <div class="checkbox-group text-xl">
+            <input type="checkbox" id="lifeTimePayout-1" name="lifeTimePayout" value="lifeTimePayout" class="rounded text-purple-500 focus:ring-purple-400">
             <label for="lifeTimePayout-1" class="text-white ml-2">95% Life Time Payout</label>
         </div>
-        <div class="checkbox-group">
+        <div class="checkbox-group text-xl">
             <input type="checkbox" id="noMinimumDays-1" name="noMinimumDays" value="noMinimumDays" class="rounded text-blue-500 focus:ring-blue-400">
             <label for="noMinimumDays-1" class="text-white ml-2">No Minimum Trading Days</label>
         </div>
-        <div class="checkbox-group">
+        <div class="checkbox-group text-xl">
             <input type="checkbox" id="125Refund-1" name="125Refund" value="125Refund" class="rounded text-blue-500 focus:ring-blue-400">
             <label for="125Refund-1" class="text-white ml-2">125% Refund</label>
         </div>
-        <div class="checkbox-group">
+        <div class="checkbox-group text-xl">
             <input type="checkbox" id="refund-1" name="refund" value="refund" class="rounded text-blue-500 focus:ring-blue-400">
             <label for="refund-1" class="text-white ml-2">150% Refund</label>
         </div>
