@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Selection</title>
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@^2.0/dist/tailwind.min.css" rel="stylesheet">
+    <!-- DaisyUI CDN (after Tailwind CSS) -->
+    <script src="https://cdn.jsdelivr.net/npm/daisyui"></script>
+    <!-- Include jsPDF library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+    <!-- Link to your custom stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-900 font-sans leading-normal tracking-normal text-white">
+
+    <header class="text-center p-7 bg-black shadow flex justify-center items-center flex-col sm:flex-row">
+        <!-- Logo Image -->
+        <img src="https://fundednext.fra1.digitaloceanspaces.com/competion-funded-next-logo.svg" alt="Logo" class="h-8 w-auto mr-0 sm:mr-20 mb-2 sm:mb-0">
+        <h1 id="pageTitle" class="text-2xl font-bold">Payment Partner Portal</h1>
+    </header>
+    
+
+<div class="container mx-auto mt-8">
+    <div class="flex flex-wrap -mx-2">
+        <div class="w-full lg:w-1/2 px-2 mb-4">
+            <!-- Dynamic account boxes will be added here -->
+            <div class="accounts-container bg-gray-800 p-4 rounded-lg shadow" id="accountsContainer"></div>
+            <button id="addAccountBtn" class="btn btn-primary w-full mt-4 rounded hover:rounded-lg">Add Account</button>
+        </div>
+        <div class="w-full lg:w-1/2 px-2">
+            <div class="pricing-section bg-gray-700 p-4 rounded-lg shadow">
+                <div id="selectionSummaries" class="mb-4">
+                    <!-- Dynamic selection summaries will be inserted here -->
+                </div>
+                <p id="totalPrice" class="text-lg font-bold text-right">Total Price: $0</p>
+                <button id="downloadInvoiceBtn" class="btn btn-secondary w-full mt-4 rounded-full">Download Invoice</button>
+                <div id="trxidInputContainer" class="mt-4 text-black" style="display:none;">
+                    <input type="text" id="trxidInput" class="input input-bordered w-full" placeholder="Complete the Payment and Submit Your TRXID">
+                    <button id="submitTrxidBtn" class="btn btn-success w-full mt-2 text-white">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
