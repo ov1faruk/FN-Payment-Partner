@@ -189,30 +189,30 @@ function calculatePriceForAccount(challengeType, swapType, stepType, sizeOfAccou
         accountDiv.className = 'account bg-purple-500 shadow p-4 rounded-lg mb-4 space-y-4';
     
     accountDiv.innerHTML = `
-    <div class="flex flex-row ">
-    <div class="left-options space-y-4">
-        <div class="option-group text-black">
-            <label class="text-white">Challenge Type:</label>
-            <select class="challengeType rounded-md border-gray-300">
+    <div class="flex flex-wrap md:flex-nowrap">
+    <div class="left-options space-y-4 flex-1">
+        <div class="option-group">
+            <label class="block text-white text-xl mb-2">Challenge Type:</label>
+            <select class="challengeType w-full rounded-md bg-purple-700 border border-purple-600 text-white py-2 px-4">
                 <option value="stellar">Stellar</option>
                 <option value="evaluation">Evaluation</option>
                 <option value="express">Express</option>
             </select>
         </div>
-        <div class="option-group text-black">
-            <label class="text-white">Swap Type:</label>
-            <select class="swapType rounded-md border-gray-300">
+        <div class="option-group">
+            <label class="block text-white text-xl mb-2">Swap Type:</label>
+            <select class="swapType w-full rounded-md bg-purple-700 border border-purple-600 text-white py-2 px-4">
                 <option value="swap">Swap</option>
                 <option value="swapFree">Swap Free</option>
             </select>
         </div>
-        <div class="option-group text-black">
-            <label class="text-white">Step Type:</label>
-            <select class="stepType rounded-md border-gray-300"></select>
+        <div class="option-group">
+            <label class="block text-white text-xl mb-2">Step Type:</label>
+            <select class="stepType w-full rounded-md bg-purple-700 border border-purple-600 text-white py-2 px-4"></select>
         </div>
-        <div class="option-group text-black">
-            <label class="text-white">Account Size:</label>
-            <select class="sizeOfAccount rounded-md border-gray-300">
+        <div class="option-group">
+            <label class="block text-white text-xl mb-2">Account Size:</label>
+            <select class="sizeOfAccount w-full rounded-md bg-purple-700 border border-purple-600 text-white py-2 px-4">
                 <option value="6K">6K</option>
                 <option value="15K">15K</option>
                 <option value="25K">25K</option>
@@ -222,25 +222,26 @@ function calculatePriceForAccount(challengeType, swapType, stepType, sizeOfAccou
             </select>
         </div>
     </div>
-    <div class="right-options ml-40 space-y-4">
-        <div class="checkbox-group text-black">
-            <input type="checkbox" id="lifeTimePayout-${accountCount}" name="lifeTimePayout" value="lifeTimePayout" data-label="95% Life Time Payout" class="rounded text-blue-500 focus:ring-blue-400">
-            <label for="lifeTimePayout-${accountCount}" class="text-white">95% Life Time Payout</label>
+    <div class="right-options space-y-4 flex-1 mt-4 md:mt-0 md:ml-40">
+        <div class="checkbox-group">
+            <input type="checkbox" id="lifeTimePayout-1" name="lifeTimePayout" value="lifeTimePayout" class="rounded text-blue-500 focus:ring-blue-400" checked>
+            <label for="lifeTimePayout-1" class="text-white ml-2">95% Life Time Payout</label>
         </div>
-        <div class="checkbox-group text-black">
-            <input type="checkbox" id="noMinimumDays-${accountCount}" name="noMinimumDays" value="noMinimumDays" data-label="No Minimum Trading Days" class="rounded text-blue-500 focus:ring-blue-400">
-            <label for="noMinimumDays-${accountCount}" class="text-white">No Minimum Trading Days</label>
+        <div class="checkbox-group">
+            <input type="checkbox" id="noMinimumDays-1" name="noMinimumDays" value="noMinimumDays" class="rounded text-blue-500 focus:ring-blue-400">
+            <label for="noMinimumDays-1" class="text-white ml-2">No Minimum Trading Days</label>
         </div>
-        <div class="checkbox-group text-black">
-            <input type="checkbox" id="125Refund-${accountCount}" name="125Refund" value="125Refund" data-label="125% Refund" class="rounded text-blue-500 focus:ring-blue-400">
-            <label for="125Refund-${accountCount}" class="text-white">125% Refund</label>
+        <div class="checkbox-group">
+            <input type="checkbox" id="125Refund-1" name="125Refund" value="125Refund" class="rounded text-blue-500 focus:ring-blue-400">
+            <label for="125Refund-1" class="text-white ml-2">125% Refund</label>
         </div>
-        <div class="checkbox-group text-black">
-            <input type="checkbox" id="refund-${accountCount}" name="refund" value="refund" data-label="150% Refund" class="rounded text-blue-500 focus:ring-blue-400">
-            <label for="refund-${accountCount}" class="text-white">150% Refund</label>
+        <div class="checkbox-group">
+            <input type="checkbox" id="refund-1" name="refund" value="refund" class="rounded text-blue-500 focus:ring-blue-400">
+            <label for="refund-1" class="text-white ml-2">150% Refund</label>
         </div>
     </div>
 </div>
+
 
 `;
 
