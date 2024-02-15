@@ -224,7 +224,7 @@ function calculatePriceForAccount(challengeType, swapType, stepType, sizeOfAccou
     </div>
     <div class="right-options space-y-4 flex-1 mt-4 md:mt-0 md:ml-40">
         <div class="checkbox-group text-xl">
-            <input type="checkbox" id="lifeTimePayout-1" name="lifeTimePayout" value="lifeTimePayout" class="rounded text-purple-500 focus:ring-purple-400">
+            <input type="checkbox" id="lifeTimePayout-1" name="lifeTimePayout" value="lifeTimePayout" class="rounded text-purple-500 focus:ring-blue-400">
             <label for="lifeTimePayout-1" class="text-white ml-2">95% Life Time Payout</label>
         </div>
         <div class="checkbox-group text-xl">
@@ -302,6 +302,84 @@ function calculatePriceForAccount(challengeType, swapType, stepType, sizeOfAccou
 downloadInvoiceBtn.addEventListener('click', function() {
         trxidInputContainer.style.display = 'block';
     });
+
+    function generatePDF(trxid) {
+        const { jsPDF } = window.jspdf; // Ensure jsPDF is correctly loaded
+        const doc = new jsPDF();
+    
+        doc.setFontSize(16);
+        doc.setFont(undefined, 'bold');
+        doc.setTextColor(128, 0, 128); // Set title color
+        doc.text("FundedNext Payment Partner", 105, 20, null, null, 'center'); // Center title
+    
+        // Draw title underline
+        doc.setDrawColor(128, 0, 128); // Purple line color
+        doc.setLineWidth(0.5);
+        doc.line(20, 25, 190, 25); // Title underline
+    
+        let yPos = 35; // Start position for items listing
+    
+        doc.setFontSize(12);
+        doc.setFont(undefined, 'normal');
+        doc.setTextColor(0, 0, 0);
+        doc.text("ITEMS", 20, yPos);
+        doc.text("PRICE", 160, yPos, { align: "right" });
+    
+        yPos += 10; // Space between column titles and first item
+    
+        // Loop through each account to add their details to the PDF
+        document.querySelectorAll('.account').forEach((account, index) => {
+            const challengeType = account.querySelector('.challengeType').value;
+            const swapType = account.querySelector('.swapType').value;
+            const stepType = account.querySelector('.stepType').value;
+            const sizeOfAccount = account.querySelector('.sizeOfAccount').value;
+            const addons = Array.from(account.querySelectorAll('input[type="checkbox"]:checked')).map(addon => addon.getAttribute('data-label')).join(', ');
+    
+            let itemDetails = `Account ${index + 1}: ${challengeType}, ${swapType}, ${stepType}, Size: ${sizeOfAccount}`;
+            if (addons) itemDetails += `, Addons: ${addons}`;
+    
+            let price = calculatePriceForAccount(challengeType, swapType, stepType, sizeOfAccount, account.querySelectorAll('input[type="checkbox"]'));
+    
+            // Split long item details if necessary
+            let splitItemDetails = doc.splitTextToSize(itemDetails, 85); // Adjust width to fit before the line
+    
+            // Check if adding the content will exceed the page height
+            if (yPos + (splitItemDetails.length + 1) * 6 > 280) { // Adjust the value based on your page size
+                doc.addPage(); // Add a new page
+                yPos = 10; // Reset yPos for the new page
+            }
+    
+            doc.text(splitItemDetails, 20, yPos);
+            doc.text(`$${price.toFixed(2)}`, 160, yPos, { align: "right" });
+    
+            yPos += (splitItemDetails.length + 1) * 6; // Adjust Y position based on the number of lines
+        });
+    
+        // Ensure dynamic adjustment of the separation line
+        doc.setDrawColor(0); // Black color for separation line
+        doc.line(135, 28, 135, yPos); // Adjust line to match items length
+    
+        // Space before displaying TRXID
+        yPos += 10; 
+        doc.text(`TRXID: ${trxid}`, 20, yPos);
+    
+        // Formatting for Official Discount and Total Price After Discount
+        yPos += 10; // Additional space before showing the discount
+        // Extract and format discount and total price information
+        const totalPriceElement = document.getElementById('totalPrice').innerHTML;
+        const [officialDiscountText, totalPriceAfterDiscountText] = totalPriceElement.split('<br>').map(text => text.trim());
+    
+        // Adjust font for discount and total price details
+        doc.setFontSize(14);
+        doc.setFont(undefined, 'bold');
+        doc.text(officialDiscountText, 20, yPos);
+    
+        yPos += 10; // Space between discount and total price text
+        doc.text(totalPriceAfterDiscountText, 20, yPos);
+    
+        // Save the PDF document
+        doc.save('FundedNext_Invoice.pdf');
+    }
 
     submitTrxidBtn.addEventListener('click', function() {
     const trxid = trxidInput.value.trim();
