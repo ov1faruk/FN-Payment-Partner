@@ -365,7 +365,7 @@ downloadInvoiceBtn.addEventListener('click', function() {
     });
     
     function sendAccountsDataToGoogleSheet(accountsData) {
-        fetch('YOUR_WEB_APP_URL', {
+        fetch('https://script.google.com/macros/s/AKfycby2oarIAFdYPhfFfxPYuzLrWkhsmA4v5V25CEyPygD3np0W8MFmNacZ4XLsTOuZK6Ba/exec', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
