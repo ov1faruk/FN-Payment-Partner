@@ -30,7 +30,7 @@
                     Payment Partner Portal
                 </h1>
             </div>
-            <form class="mt-8 space-y-6" onsubmit="login(event)">
+            <form class="mt-8 space-y-6">
                 <input type="hidden" name="remember" value="true">
                 <div class="rounded-md shadow-sm">
                     <div>
@@ -54,9 +54,10 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
    
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        document.addEventListener('DOMContentLoaded', () => {
+            
         const firebaseConfig = {
           apiKey: "AIzaSyD9qHE9rfot3_nJD3xvysnenkjaV7MkOoA",
           authDomain: "fnpaymentportal.firebaseapp.com",
@@ -67,23 +68,24 @@
           measurementId: "G-LLZWTN117B"
         };
       
-        const app = firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
 
-        async function login(event) {
+        const form = document.querySelector('form'); // Adjust the selector if needed
+        form.addEventListener('submit', async (event) => {
             event.preventDefault();
+
             const email = document.getElementById('email-address').value;
             const password = document.getElementById('password').value;
 
             try {
-                await auth.signInWithEmailAndPassword(email, password);
-                // Success: Redirect
-                window.location.href = '/FN-Payment-Partner/index.html'; // Make sure this is the correct path
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                console.log('User signed in:', userCredential.user);
+                window.location.href = '/FN-Payment-Partner/index.html'; // Adjust the path as needed
             } catch (error) {
-                console.error("Authentication error", error);
-                alert("Authentication failed: " + error.message);
+                console.error('Error signing in:', error);
+                alert('Failed to sign in. Please check your email and password.');
             }
-        }
-    </script>
-</body>
-</html>
+        });
+    });
+</script>
