@@ -55,15 +55,12 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateStepTypeOptions(stepTypeSelect, challengeType) {
         stepTypeSelect.innerHTML = '';
 
-        // DaisyUI classes for select dropdowns
-        let classAttr = 'select select-bordered w-full';
-
         if (challengeType === 'stellar') {
-            stepTypeSelect.innerHTML = `<option value="1step" class="${classAttr}">1-Step</option><option value="2step" class="${classAttr}">2-Step</option>`;
+            stepTypeSelect.innerHTML = '<option value="1step">1-Step</option><option value="2step">2-Step</option>';
         } else if (challengeType === 'express') {
-            stepTypeSelect.innerHTML = `<option value="consistency" class="${classAttr}">Consistency</option><option value="nonConsistency" class="${classAttr}">Non-Consistency</option>`;
+            stepTypeSelect.innerHTML = '<option value="consistency">Consistency</option><option value="nonConsistency">Non-Consistency</option>';
         } else {
-            stepTypeSelect.innerHTML = `<option disabled selected class="${classAttr}">Select Step Type</option>`;
+            stepTypeSelect.innerHTML = '<option disabled selected>Select Step Type</option>';
         }
     }
 
@@ -118,31 +115,26 @@ function calculatePriceForAccount(challengeType, swapType, stepType, sizeOfAccou
 
 
     function updateAccountSizeVisibility(accountDiv) {
-        const challengeTypeSelect = accountDiv.querySelector('.challengeType');
-        const stepTypeSelect = accountDiv.querySelector('.stepType');
-        const sizeOfAccountSelect = accountDiv.querySelector('.sizeOfAccount');
-        const option200K = sizeOfAccountSelect.querySelector('option[value="200K"]');
-        const noMinimumDaysCheckbox = accountDiv.querySelector('input[name="noMinimumDays"]');
-        const refund125Checkbox = accountDiv.querySelector('input[name="125Refund"]');
-        const refund150Checkbox = accountDiv.querySelector('input[name="refund"]');
+    const challengeTypeSelect = accountDiv.querySelector('.challengeType');
+    const stepTypeSelect = accountDiv.querySelector('.stepType');
+    const sizeOfAccountSelect = accountDiv.querySelector('.sizeOfAccount');
+    const option200K = sizeOfAccountSelect.querySelector('option[value="200K"]');
 
-        if (challengeTypeSelect.value === 'express' && stepTypeSelect.value === 'nonConsistency') {
-            option200K.style.display = 'none';
-        } else {
-            option200K.style.display = 'block'; // Use 'block' or '' depending on how the options are styled in your application
-        }
+    // Logic for hiding/showing No Minimum Trading Days and Refund add-ons
+    const noMinimumDaysCheckbox = accountDiv.querySelector('input[name="noMinimumDays"]');
+    const refund125Checkbox = accountDiv.querySelector('input[name="125Refund"]');
+    const refund150Checkbox = accountDiv.querySelector('input[name="refund"]');
 
-        // Hide No Minimum Trading Days addon if Express is selected
-        noMinimumDaysCheckbox.parentElement.style.display = challengeTypeSelect.value === 'express' ? 'none' : 'block';
+    noMinimumDaysCheckbox.parentElement.style.display = challengeTypeSelect.value === 'express' ? 'none' : 'block';
 
-        // Ensure only one of the refund addons can be selected
-        refund125Checkbox.onchange = function() {
-            if (refund125Checkbox.checked) refund150Checkbox.checked = false;
-        };
-        refund150Checkbox.onchange = function() {
-            if (refund150Checkbox.checked) refund125Checkbox.checked = false;
-        };
-    }
+    refund125Checkbox.onchange = function() {
+        if (refund125Checkbox.checked) refund150Checkbox.checked = false;
+    };
+    refund150Checkbox.onchange = function() {
+        if (refund150Checkbox.checked) refund125Checkbox.checked = false;
+    };
+
+}
 
     function updateSelectionSummary() {
     const selectionSummaries = document.getElementById('selectionSummaries');
@@ -155,6 +147,8 @@ function calculatePriceForAccount(challengeType, swapType, stepType, sizeOfAccou
         const challengeType = account.querySelector('.challengeType').value;
         const swapType = account.querySelector('.swapType').value;
         const stepType = account.querySelector('.stepType').value;
+        const platform = account.querySelector('.platform').value;
+        const broker = account.querySelector('.broker').value;
         const addons = account.querySelectorAll('input[type="checkbox"]');
         
         const price = calculatePriceForAccount(challengeType, swapType, stepType, sizeOfAccount, addons);
@@ -169,7 +163,7 @@ function calculatePriceForAccount(challengeType, swapType, stepType, sizeOfAccou
 
         const summary = document.createElement('div');
         summary.classList.add('selection-summary');
-        summary.innerHTML = `Account ${index + 1}: ${challengeType} + ${swapType} + ${stepType} + ${sizeOfAccount}` +
+        summary.innerHTML = `Account ${index + 1}: ${challengeType} + ${swapType} + ${stepType} + ${sizeOfAccount} + ${platform} + ${broker} ` + 
                             (addons.length ? ' + ' + Array.from(addons).filter(addon => addon.checked).map(addon => addon.getAttribute('data-label')).join(' + ') : '') +
                             `<br>Price: $${price.toFixed(2)}`;
         selectionSummaries.appendChild(summary);
@@ -183,6 +177,7 @@ function calculatePriceForAccount(challengeType, swapType, stepType, sizeOfAccou
     totalPriceElement.innerHTML = `Official Discount: $${totalDiscount.toFixed(2)}<br>Total Price After Discount: $${finalTotalPrice.toFixed(2)}`;
 }
 
+
     function addAccount() {
         accountCount++;
         const accountDiv = document.createElement('div');
@@ -191,6 +186,18 @@ function calculatePriceForAccount(challengeType, swapType, stepType, sizeOfAccou
     accountDiv.innerHTML = `
     <div class="flex flex-wrap md:flex-nowrap">
     <div class="left-options space-y-4 flex-1">
+    <div class="option-group">
+    <label class="block text-white bg-purple-700 border border-purple-600 text-xl mb-2">Name of the Client:</label>
+    <input type="text" class="client-name" placeholder="Enter name">
+    </div>
+    <div class="option-group">
+    <label class="block text-white bg-purple-700 border border-purple-600 text-xl mb-2">Email of the Client:</label>
+    <input type="email" class="client-email" placeholder="Enter email">
+    </div>
+    <div class="option-group">
+    <label class="block text-white bg-purple-700 border border-purple-600 text-xl mb-2">Country of the Client:</label>
+    <input type="text" class="client-country" placeholder="Enter country">
+    </div>
         <div class="option-group">
             <label class="block text-white text-xl mb-2">Challenge Type:</label>
             <select class="challengeType w-full rounded-md bg-purple-700 border border-purple-600 text-white py-2 px-4">
@@ -219,6 +226,20 @@ function calculatePriceForAccount(challengeType, swapType, stepType, sizeOfAccou
                 <option value="50K">50K</option>
                 <option value="100K">100K</option>
                 <option value="200K">200K</option>
+            </select>
+        </div>
+        <div class="option-group">
+            <label class="block text-white text-xl mb-2">Platform:</label>
+            <select class="platform w-full rounded-md bg-purple-700 border border-purple-600 text-white py-2 px-4">
+                <option value="mt4">MT4</option>
+                <option value="mt5">MT5</option>
+            </select>
+        </div>
+        <div class="option-group">
+            <label class="block text-white text-xl mb-2">Broker:</label>
+            <select class="broker w-full rounded-md bg-purple-700 border border-purple-600 text-white py-2 px-4">
+                <option value="growthnext">GrowthNext</option>
+                <option value="fundednext">FundedNext</option>
             </select>
         </div>
     </div>
