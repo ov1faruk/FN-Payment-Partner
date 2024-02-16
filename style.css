@@ -96,54 +96,27 @@ header {
     color: purple;
   }
   
-  .payment-button-card {
-    background-color: white; /* White background for the card */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for depth */
-    border-radius: 8px; /* Rounded corners for the card */
-    padding: 20px; /* Padding inside the card */
-    display: flex; /* Use flexbox for layout */
-    flex-wrap: wrap; /* Allow items to wrap as needed */
-    justify-content: space-between; /* Space between buttons */
-    margin: 32px auto; /* Margin top and centered horizontally */
+  #buttonContainer {
+    transition: all 0.3s ease;
 }
 
-/* Styling for individual buttons within the card */
-.copy-btn {
-    display: flex; /* Use flexbox for button contents */
-    align-items: center; /* Center items vertically */
-    padding: 12px 24px; /* Padding inside buttons */
-    margin: 8px; /* Margin around buttons */
-    background-color: var(--primary-color); /* Primary button color */
-    color: white; /* Text color */
-    border: none; /* No border */
-    border-radius: 8px; /* Rounded corners for buttons */
-    cursor: pointer; /* Cursor to pointer to indicate clickable */
-    transition: background-color 0.3s; /* Smooth background color transition */
-}
-
-.copy-btn:hover {
-    background-color: var(--secondary-color); /* Darken on hover */
-}
-
-/* Sticky buttons styling */
 .sticky-buttons {
-    position: fixed; /* Fixed at the top of the viewport */
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    z-index: 1000; /* Ensure it's above other content */
-    background-color: white; /* White background for visibility */
-    padding: 10px 0; /* Reduced padding */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Shadow for depth */
-    display: flex; /* Use flexbox for layout */
-    justify-content: center; /* Center buttons horizontally */
-    flex-wrap: nowrap; /* No wrapping, all in one line */
-    overflow-x: auto; /* Allow horizontal scrolling */
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    z-index: 1000;
+    flex-wrap: nowrap;
+    overflow-x: auto;
 }
 
-/* Adjusted styling for buttons when in sticky mode */
 .sticky-buttons .copy-btn {
-    padding: 8px 16px; /* Smaller padding */
-    margin: 0 4px; /* Reduced margin */
-    font-size: 0.875rem; /* Smaller font size */
+    padding: 8px 16px;
+    margin: 0 10px;
+    font-size: 0.75rem;
 }
