@@ -17,6 +17,38 @@
     
     <!-- Link to your custom stylesheet -->
     <link rel="stylesheet" href="style.css">
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+    <script type="module">
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+
+        // Your web app's Firebase configuration (you should use the same config as in your login page)
+        const firebaseConfig = {
+          apiKey: "AIzaSyD9qHE9rfot3_nJD3xvysnenkjaV7MkOoA",
+          authDomain: "fnpaymentportal.firebaseapp.com",
+          projectId: "fnpaymentportal",
+          storageBucket: "fnpaymentportal.appspot.com",
+          messagingSenderId: "472254280172",
+          appId: "1:472254280172:web:797757ac5c172a221450c9",
+          measurementId: "G-LLZWTN117B"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                // User is not signed in, redirect to login page
+                window.location.href = '/FN-Payment-Partner/login.html'; // Adjust the path as needed
+            } else {
+                // User is signed in, display the page or do any authenticated user stuff
+                console.log('User is signed in');
+            }
+        });
+    </script>
     
 </head>
 <body class="bg-gray-900 font-sans leading-normal tracking-normal text-white">
@@ -98,39 +130,7 @@
 
     <script src="script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
-     <!-- Firebase JavaScript SDK -->
-     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
-     
-     <script>
-         // Firebase configuration
-         const firebaseConfig = {
-          apiKey: "AIzaSyD9qHE9rfot3_nJD3xvysnenkjaV7MkOoA",
-          authDomain: "fnpaymentportal.firebaseapp.com",
-          projectId: "fnpaymentportal",
-          storageBucket: "fnpaymentportal.appspot.com",
-          messagingSenderId: "472254280172",
-          appId: "1:472254280172:web:797757ac5c172a221450c9",
-          measurementId: "G-LLZWTN117B"
-         };
  
-         // Initialize Firebase
-         firebase.initializeApp(firebaseConfig);
- 
-         // Check if user is logged in
-         firebase.auth().onAuthStateChanged(function(user) {
-             if (user) {
-                 // User is signed in.
-                 // Allow access to the index.html content
-                 console.log("User is signed in:", user);
-             } else {
-                 // No user is signed in.
-                 // Redirect to login page or show a message
-                 console.log("No user is signed in.");
-                 window.location.href = "/FN-Payment-Partner/login.html";
-             }
-         });
-     </script>
 
 </body>
 </html>
