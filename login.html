@@ -78,7 +78,7 @@
             try {
                 await auth.signInWithEmailAndPassword(email, password);
                 // Success: Redirect
-                window.location.href = 'https://ov1faruk.github.io/FN-Payment-Partner/index.html'; // Make sure this is the correct path
+                window.location.href = '/FN-Payment-Partner/index.html'; // Make sure this is the correct path
             } catch (error) {
                 console.error("Authentication error", error);
                 alert("Authentication failed: " + error.message);
