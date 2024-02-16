@@ -96,3 +96,31 @@ header {
     color: purple;
   }
   
+  .button-container {
+    position: -webkit-sticky; /* For Safari */
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 1000;
+    display: flex;
+    overflow-x: auto;
+    padding: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Optional: Adds a shadow for better visibility */
+    white-space: nowrap; /* Prevents wrapping of buttons */
+    transition: all 0.3s ease; /* Smooth transition for resizing */
+}
+
+.smaller-buttons .copy-btn {
+    padding: 4px 8px; /* Smaller padding */
+    font-size: 0.7rem; /* Smaller font size */
+}
+
+.copy-btn {
+    flex: none; /* Prevents flexbox from resizing the buttons */
+    padding: 8px 16px; /* Default padding */
+    margin: 2px;
+    font-size: 0.75rem; /* Default font size */
+    display: inline-flex; /* Ensures buttons are inline and flex */
+    align-items: center; /* Centers items vertically */
+    transition: all 0.3s ease; /* Smooth transition for resizing */
+}
