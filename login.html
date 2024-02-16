@@ -31,7 +31,8 @@
                     Payment Partner Portal
                 </h1>
             </div>
-            <form class="mt-8 space-y-6" action="#" method="POST" onsubmit="login(event)">
+            <form class="mt-8 space-y-6" method="POST" onsubmit="login(event)">
+
 
                 <input type="hidden" name="remember" value="true">
                 <div class="rounded-md shadow-sm -space-y-px">
@@ -81,7 +82,8 @@
           signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
               // Signed in successfully, redirect or perform other actions
-              window.location.href = 'index.html'; // Example redirect
+              window.location.href = '/FN-Payment-Partner/index.html'; // Adjust the path as needed
+
             })
             .catch((error) => {
               // Handle errors here, such as displaying a message
