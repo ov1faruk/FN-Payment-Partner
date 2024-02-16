@@ -187,17 +187,17 @@ function calculatePriceForAccount(challengeType, swapType, stepType, sizeOfAccou
     <div class="flex flex-wrap md:flex-nowrap">
     <div class="left-options space-y-4 flex-1">
     <div class="option-group">
-    <label class="block text-white bg-purple-700 border border-purple-600 text-xl mb-2">Name of the Client:</label>
+    <label class="block text-white text-xl mb-2">Name of the Client:</label>
     <input type="text" class="client-name bg-purple-700 placeholder-white text-black rounded-md p-2 w-full" placeholder="Enter name">
 
     </div>
     <div class="option-group">
-    <label class="block text-white bg-purple-700 border border-purple-600 text-xl mb-2">Email of the Client:</label>
+    <label class="block text-white text-xl mb-2">Email of the Client:</label>
     <input type="email" class="client-email bg-purple-700 placeholder-white text-black rounded-md p-2 w-full" placeholder="Enter email">
 
     </div>
     <div class="option-group">
-    <label class="block text-white bg-purple-700 border border-purple-600 text-xl mb-2">Country of the Client:</label>
+    <label class="block text-white text-xl mb-2">Country of the Client:</label>
     <input type="text" class="client-country bg-purple-700 placeholder-white text-black rounded-md p-2 w-full" placeholder="Enter country">
 
     </div>
