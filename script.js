@@ -338,12 +338,11 @@ downloadInvoiceBtn.addEventListener('click', function() {
     });
 
     function generatePDF(trxid) {
-        // Accessing jsPDF from the UMD module
-        const { jsPDF } = window.jspdf;
+        const { jsPDF } = window.jspdf; // Ensure jsPDF is correctly loaded
         const doc = new jsPDF();
     
         doc.setFontSize(16);
-        doc.setFont('helvetica', 'bold');
+        doc.setFont(undefined, 'bold');
         doc.setTextColor(128, 0, 128); // Set title color
         doc.text("FundedNext Payment Partner", 105, 20, null, null, 'center'); // Center title
     
@@ -355,13 +354,34 @@ downloadInvoiceBtn.addEventListener('click', function() {
         let yPos = 35; // Start position for items listing
     
         doc.setFontSize(12);
-        doc.setFont('helvetica', 'normal');
+        doc.setFont(undefined, 'normal');
         doc.setTextColor(0, 0, 0);
     
-        // Assuming you have a function to calculate price for each account
-        // let calculatePriceForAccount = (...) => { ... };
+        const itemsPositionX = 20; // Starting X for items (left side)
+        const separationLineX = itemsPositionX + (170 * 0.7); // Position for the separation line, adjusted to dynamically place the vertical line
+        const pricePositionX = 160; // Starting X for price (right side)
+    
+        // Draw table headers
+        doc.setFont(undefined, 'bold');
+        doc.text("ITEMS", itemsPositionX, yPos);
+        doc.text("PRICE", 179, yPos, { align: "right" });
+    
+        yPos += 10; // Move to next row
+    
+        let accountCount = 0; // Counter to track the number of accounts on each page
+        let totalAccounts = document.querySelectorAll('.account').length;
     
         document.querySelectorAll('.account').forEach((account, index) => {
+            if (accountCount >= 2) {
+                // Draw the vertical separation line before adding a new page
+                doc.line(separationLineX, 35, separationLineX, yPos - 5); // Adjust the line's length dynamically based on yPos
+                doc.addPage();
+                yPos = 35; // Reset yPos for the new page
+                accountCount = 0; // Reset account count for the new page
+            }
+    
+            accountCount++; // Increment account count for this page
+    
             const clientName = account.querySelector('.client-name').value;
             const clientEmail = account.querySelector('.client-email').value;
             const clientCountry = account.querySelector('.client-country').value;
@@ -373,33 +393,94 @@ downloadInvoiceBtn.addEventListener('click', function() {
             const broker = account.querySelector('.broker').value;
             const addons = Array.from(account.querySelectorAll('input[type="checkbox"]:checked')).map(addon => addon.getAttribute('data-label')).join(', ');
     
-            // Your logic to calculate the price for the account goes here
-            // let price = calculatePriceForAccount(...);
+          yPos += 5;
+            doc.setFont(undefined, 'bold'); // Switch to bold font
+            doc.setTextColor(128, 0, 128); // Set text color to purple
     
-            doc.text(`Account ${index + 1}: ${challengeType}, ${swapType}, ${stepType}, ${sizeOfAccount}, ${platform}, ${broker}, Add-ons: ${addons}`, 10, yPos);
+            // Display "Account" and index with the new style
+            doc.text(`Account ${index + 1}:`, itemsPositionX, yPos);
+    
+            // Reset yPos, font style, and color for subsequent text
+            yPos += 10; // Move to next row
+            doc.setFont(undefined, 'normal'); // Switch back to normal font
+            doc.setTextColor(0, 0, 0); // Reset text color to black
+    
+            // Continue with the rest of the text in normal style
+            doc.text(`Client Name: ${clientName}`, itemsPositionX, yPos);
             yPos += 10;
+            doc.text(`Email: ${clientEmail}`, itemsPositionX, yPos);
+            yPos += 10;
+            doc.text(`Country: ${clientCountry}`, itemsPositionX, yPos);
+            yPos += 20; // Add a 2-line gap after "Country"// Your logic to add account details here, incrementing yPos accordingly
     
-            // Check if we need to add a new page
-            if (yPos > 280) {
-                doc.addPage();
-                yPos = 10; // Reset yPos for the new page
+            let addonsDisplay;
+            let addonsLineGap = '';
+            if (addons) {
+                const addonList = addons.split(', ');
+                if (addonList.length === 1) {
+                    addonsDisplay = `Add On: ${addons}`;
+                    addonsLineGap = '\n'; // Add line gap only if addons are selected
+                } else {
+                    addonsDisplay = `AddOns:\n${addonList.join('\n')}`;
+                    addonsLineGap = '\n'; // Add line gap only if addons are selected
+                }
+            } else {
+                addonsDisplay = '';
+                addonsLineGap = ''; // No line gap if no addons are selected
+            }
+    
+            const accountDetails = [
+                `Model: ${challengeType} + ${swapType} + ${stepType} + ${sizeOfAccount}`,
+                `Platform & Broker: ${platform} + ${broker}`,
+                addonsDisplay,
+                addonsLineGap // Include the line gap here
+            ];
+    
+            accountDetails.forEach(detail => {
+                doc.text(detail, itemsPositionX, yPos);
+                yPos += 10;
+            }); // Add a 2-line gap after "Country"// Your logic to add account details here, incrementing yPos accordingly
+    
+            const price = calculatePriceForAccount(challengeType, swapType, stepType, sizeOfAccount, account.querySelectorAll('input[type="checkbox"]'));
+            let priceStr = `$${price.toFixed(2)}`;
+            doc.text(priceStr, 180, yPos - 5, { align: "right" }); // Ensure price is aligned to the right, within the price section
+    
+    
+            // At the end of the last account or at the end of each page
+            if (index === totalAccounts - 1) {
+                // Draw the vertical separation line after the last account's details
+                doc.line(separationLineX, 35, separationLineX, yPos);
             }
         });
     
-        // Add Transaction ID
-        doc.text(`Transaction ID: ${trxid}`, 10, yPos);
+        // Draw the vertical separation line for the last page if it hasn't been drawn yet
+        if (totalAccounts % 2 !== 0) {
+            doc.line(separationLineX, 35, separationLineX, yPos - 5);
+        }
+    
+        // Determine if a new page is needed for the TRXID and discount information
+        if (totalAccounts % 2 === 0) {
+            doc.addPage();
+            yPos = 35;
+        } else {
+            yPos += 10; // Add a little space if continuing on the same page
+        }
+    
+        // Add TRXID, discount, and total price info
+        doc.setFontSize(12);
+        doc.setFont(undefined, 'bold');
+        doc.text(`TRXID: ${trxid}`, 105, yPos, null, null, 'center');
         yPos += 10;
     
-        // Assuming you have elements or logic to calculate and display total price and discount
-        // Update these lines according to your actual logic for calculating total price and discount
-        const totalPrice = "Total Price: $XXX.XX"; // Replace XXX.XX with your calculated total price
-        const discount = "Discount: $XX.XX"; // Replace XX.XX with your calculated discount
+        const totalPriceElement = document.getElementById('totalPrice').innerHTML;
+        const [officialDiscountText, totalPriceAfterDiscountText] = totalPriceElement.split('<br>').map(text => text.trim());
     
-        doc.text(totalPrice, 10, yPos);
+        doc.setFontSize(14);
+        doc.text(officialDiscountText, 105, yPos, null, null, 'center');
         yPos += 10;
-        doc.text(discount, 10, yPos);
+        doc.text(totalPriceAfterDiscountText, 105, yPos, null, null, 'center');
     
-        // Finally, save the PDF. You can customize the filename as needed.
+        // Save the PDF document
         doc.save('FundedNext_Invoice.pdf');
     }
     
