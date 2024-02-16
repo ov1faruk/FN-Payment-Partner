@@ -322,82 +322,135 @@ downloadInvoiceBtn.addEventListener('click', function() {
         doc.setFontSize(12);
         doc.setFont(undefined, 'normal');
         doc.setTextColor(0, 0, 0);
-        doc.text("ITEMS", 20, yPos);
-        doc.text("PRICE", 160, yPos, { align: "right" });
     
-        yPos += 10; // Space between column titles and first item
+        const itemsPositionX = 20; // Starting X for items (left side)
+        const separationLineX = itemsPositionX + (170 * 0.7); // Position for the separation line, adjusted to dynamically place the vertical line
+        const pricePositionX = 160; // Starting X for price (right side)
     
-        // Loop through each account to add their details to the PDF
+        // Draw table headers
+        doc.setFont(undefined, 'bold');
+        doc.text("ITEMS", itemsPositionX, yPos);
+        doc.text("PRICE", 179, yPos, { align: "right" });
+    
+        yPos += 10; // Move to next row
+    
+        let accountCount = 0; // Counter to track the number of accounts on each page
+        let totalAccounts = document.querySelectorAll('.account').length;
+    
         document.querySelectorAll('.account').forEach((account, index) => {
+            if (accountCount >= 2) {
+                // Draw the vertical separation line before adding a new page
+                doc.line(separationLineX, 35, separationLineX, yPos - 5); // Adjust the line's length dynamically based on yPos
+                doc.addPage();
+                yPos = 35; // Reset yPos for the new page
+                accountCount = 0; // Reset account count for the new page
+            }
+    
+            accountCount++; // Increment account count for this page
+    
+            const clientName = account.querySelector('.client-name').value;
+            const clientEmail = account.querySelector('.client-email').value;
+            const clientCountry = account.querySelector('.client-country').value;
             const challengeType = account.querySelector('.challengeType').value;
             const swapType = account.querySelector('.swapType').value;
             const stepType = account.querySelector('.stepType').value;
             const sizeOfAccount = account.querySelector('.sizeOfAccount').value;
+            const platform = account.querySelector('.platform').value;
+            const broker = account.querySelector('.broker').value;
             const addons = Array.from(account.querySelectorAll('input[type="checkbox"]:checked')).map(addon => addon.getAttribute('data-label')).join(', ');
     
-            let itemDetails = `Account ${index + 1}: ${challengeType}, ${swapType}, ${stepType}, Size: ${sizeOfAccount}`;
-            if (addons) itemDetails += `, Addons: ${addons}`;
+          yPos += 5;
+            doc.setFont(undefined, 'bold'); // Switch to bold font
+            doc.setTextColor(128, 0, 128); // Set text color to purple
     
-            let price = calculatePriceForAccount(challengeType, swapType, stepType, sizeOfAccount, account.querySelectorAll('input[type="checkbox"]'));
+            // Display "Account" and index with the new style
+            doc.text(`Account ${index + 1}:`, itemsPositionX, yPos);
     
-            // Split long item details if necessary
-            let splitItemDetails = doc.splitTextToSize(itemDetails, 85); // Adjust width to fit before the line
+            // Reset yPos, font style, and color for subsequent text
+            yPos += 10; // Move to next row
+            doc.setFont(undefined, 'normal'); // Switch back to normal font
+            doc.setTextColor(0, 0, 0); // Reset text color to black
     
-            // Check if adding the content will exceed the page height
-            if (yPos + (splitItemDetails.length + 1) * 6 > 280) { // Adjust the value based on your page size
-                doc.addPage(); // Add a new page
-                yPos = 10; // Reset yPos for the new page
+            // Continue with the rest of the text in normal style
+            doc.text(`Client Name: ${clientName}`, itemsPositionX, yPos);
+            yPos += 10;
+            doc.text(`Email: ${clientEmail}`, itemsPositionX, yPos);
+            yPos += 10;
+            doc.text(`Country: ${clientCountry}`, itemsPositionX, yPos);
+            yPos += 20; // Add a 2-line gap after "Country"// Your logic to add account details here, incrementing yPos accordingly
+    
+            let addonsDisplay;
+            let addonsLineGap = '';
+            if (addons) {
+                const addonList = addons.split(', ');
+                if (addonList.length === 1) {
+                    addonsDisplay = `Add On: ${addons}`;
+                    addonsLineGap = '\n'; // Add line gap only if addons are selected
+                } else {
+                    addonsDisplay = `AddOns:\n${addonList.join('\n')}`;
+                    addonsLineGap = '\n'; // Add line gap only if addons are selected
+                }
+            } else {
+                addonsDisplay = '';
+                addonsLineGap = ''; // No line gap if no addons are selected
             }
     
-            doc.text(splitItemDetails, 20, yPos);
-            doc.text(`$${price.toFixed(2)}`, 160, yPos, { align: "right" });
+            const accountDetails = [
+                `Model: ${challengeType} + ${swapType} + ${stepType} + ${sizeOfAccount}`,
+                `Platform & Broker: ${platform} + ${broker}`,
+                addonsDisplay,
+                addonsLineGap // Include the line gap here
+            ];
     
-            yPos += (splitItemDetails.length + 1) * 6; // Adjust Y position based on the number of lines
+            accountDetails.forEach(detail => {
+                doc.text(detail, itemsPositionX, yPos);
+                yPos += 10;
+            }); // Add a 2-line gap after "Country"// Your logic to add account details here, incrementing yPos accordingly
+    
+            const price = calculatePriceForAccount(challengeType, swapType, stepType, sizeOfAccount, account.querySelectorAll('input[type="checkbox"]'));
+            let priceStr = `$${price.toFixed(2)}`;
+            doc.text(priceStr, 180, yPos - 5, { align: "right" }); // Ensure price is aligned to the right, within the price section
+    
+    
+            // At the end of the last account or at the end of each page
+            if (index === totalAccounts - 1) {
+                // Draw the vertical separation line after the last account's details
+                doc.line(separationLineX, 35, separationLineX, yPos);
+            }
         });
     
-        // Ensure dynamic adjustment of the separation line
-        doc.setDrawColor(0); // Black color for separation line
-        doc.line(135, 28, 135, yPos); // Adjust line to match items length
+        // Draw the vertical separation line for the last page if it hasn't been drawn yet
+        if (totalAccounts % 2 !== 0) {
+            doc.line(separationLineX, 35, separationLineX, yPos - 5);
+        }
     
-        // Space before displaying TRXID
-        yPos += 10; 
-        doc.text(`TRXID: ${trxid}`, 20, yPos);
+        // Determine if a new page is needed for the TRXID and discount information
+        if (totalAccounts % 2 === 0) {
+            doc.addPage();
+            yPos = 35;
+        } else {
+            yPos += 10; // Add a little space if continuing on the same page
+        }
     
-        // Formatting for Official Discount and Total Price After Discount
-        yPos += 10; // Additional space before showing the discount
-        // Extract and format discount and total price information
+        // Add TRXID, discount, and total price info
+        doc.setFontSize(12);
+        doc.setFont(undefined, 'bold');
+        doc.text(`TRXID: ${trxid}`, 105, yPos, null, null, 'center');
+        yPos += 10;
+    
         const totalPriceElement = document.getElementById('totalPrice').innerHTML;
         const [officialDiscountText, totalPriceAfterDiscountText] = totalPriceElement.split('<br>').map(text => text.trim());
     
-        // Adjust font for discount and total price details
         doc.setFontSize(14);
-        doc.setFont(undefined, 'bold');
-        doc.text(officialDiscountText, 20, yPos);
-    
-        yPos += 10; // Space between discount and total price text
-        doc.text(totalPriceAfterDiscountText, 20, yPos);
+        doc.text(officialDiscountText, 105, yPos, null, null, 'center');
+        yPos += 10;
+        doc.text(totalPriceAfterDiscountText, 105, yPos, null, null, 'center');
     
         // Save the PDF document
         doc.save('FundedNext_Invoice.pdf');
     }
-
-    submitTrxidBtn.addEventListener('click', function() {
-    const trxid = trxidInput.value.trim();
-    if (trxid) {
-        generatePDF(trxid);
-        // Assuming generatePDF is asynchronous and doesn't block the execution,
-        // you might want to set a timeout or wait for a specific event indicating the PDF has been generated.
-        // For simplicity, let's just reload the page immediately here.
-        setTimeout(() => { window.location.reload(); }, 1000); // Adjust delay as needed
-    } else {
-        alert('Please complete the payment and submit your TRXID.');
-    }
-});
-
-
-
-
-    addAccountBtn.addEventListener('click', addAccount);
-    // Initialize the first account
-    addAccount();
-});
+    
+        addAccountBtn.addEventListener('click', addAccount);
+        // Initialize the first account
+        addAccount();
+    });
