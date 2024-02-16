@@ -330,15 +330,61 @@ downloadInvoiceBtn.addEventListener('click', function() {
     submitTrxidBtn.addEventListener('click', function() {
         const trxid = trxidInput.value.trim();
         if (trxid) {
-            generatePDF(trxid);
-            // Assuming generatePDF is asynchronous and doesn't block the execution,
-            // you might want to set a timeout or wait for a specific event indicating the PDF has been generated.
-            // For simplicity, let's just reload the page immediately here.
-            setTimeout(() => { window.location.reload(); }, 1000); // Adjust delay as needed
+            let accountsData = []; // Array to hold data for all accounts
+    
+            // Iterate through each account container
+            document.querySelectorAll('.account').forEach((account) => {
+                let accountData = {
+                    clientName: account.querySelector('.client-name').value,
+                    clientEmail: account.querySelector('.client-email').value,
+                    clientCountry: account.querySelector('.client-country').value,
+                    challengeType: account.querySelector('.challengeType').value,
+                    swapType: account.querySelector('.swapType').value,
+                    stepType: account.querySelector('.stepType').value,
+                    sizeOfAccount: account.querySelector('.sizeOfAccount').value,
+                    platform: account.querySelector('.platform').value,
+                    broker: account.querySelector('.broker').value,
+                    addons: Array.from(account.querySelectorAll('input[type="checkbox"]:checked')).map(addon => addon.value),
+                    price: calculatePriceForAccount(
+                        account.querySelector('.challengeType').value,
+                        account.querySelector('.swapType').value,
+                        account.querySelector('.stepType').value,
+                        account.querySelector('.sizeOfAccount').value,
+                        Array.from(account.querySelectorAll('input[type="checkbox"]'))
+                    ).toFixed(2), // Assuming you have a function to calculate price
+                    trxid: trxid
+                };
+                accountsData.push(accountData);
+            });
+    
+            // Send accountsData to the Google Sheets API or Google Apps Script Web App
+            sendAccountsDataToGoogleSheet(accountsData);
         } else {
             alert('Please complete the payment and submit your TRXID.');
         }
     });
+    
+    function sendAccountsDataToGoogleSheet(accountsData) {
+        fetch('YOUR_WEB_APP_URL', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(accountsData)
+        })
+        .then(response => response.json())
+        .then(result => {
+            console.log(result);
+            alert('Data submitted successfully.');
+            window.location.reload(); // Reload or redirect as needed
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+        });
+    }
+    
+    
 
     function generatePDF(trxid) {
         const { jsPDF } = window.jspdf; // Ensure jsPDF is correctly loaded
