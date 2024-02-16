@@ -324,6 +324,19 @@ downloadInvoiceBtn.addEventListener('click', function() {
         trxidInputContainer.style.display = 'block';
     });
 
+    submitTrxidBtn.addEventListener('click', function() {
+        const trxid = trxidInput.value.trim();
+        if (trxid) {
+            generatePDF(trxid);
+            // Assuming generatePDF is asynchronous and doesn't block the execution,
+            // you might want to set a timeout or wait for a specific event indicating the PDF has been generated.
+            // For simplicity, let's just reload the page immediately here.
+            setTimeout(() => { window.location.reload(); }, 1000); // Adjust delay as needed
+        } else {
+            alert('Please complete the payment and submit your TRXID.');
+        }
+    });
+
     function generatePDF(trxid) {
         // Accessing jsPDF from the UMD module
         const { jsPDF } = window.jspdf;
