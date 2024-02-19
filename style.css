@@ -204,3 +204,12 @@ header {
 
 
 
+.header-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw; /* Use viewport width to ensure it covers all widths */
+    height: 280px; /* Fixed height as you specified */
+    object-fit: cover; /* Cover the container without losing aspect ratio */
+    z-index: -1; /* Ensure it stays in the background */
+}
