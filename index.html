@@ -101,83 +101,110 @@
   <!-- TradingView Widget END -->
   <body class="bg-gray-900 font-sans leading-normal tracking-normal text-white">
 
-    <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-4 text-black">
-        <h2 class="text-xl font-semibold">Payment Addresses</h2>
-        <h5 class="text-xl font-semibold">Click to Copy Address</h5>
+    div class="container mx-auto mt-8 max-w-4xl text-center">
+    <div id="paymentInfo" class="bg-white shadow-lg rounded-lg p-4">
+        <h2 class="text-xl font-semibold mb-4">Payment Addresses</h2>
+        <h5 class="text-xl font-semibold mb-4">Click to Copy Address</h5>
     </div>
-    
-    <div id="buttonContainer" class="flex flex-wrap justify-center mx-auto max-w-4xl">
-         <!-- ETH -->
-         <button class="copy-btn flex items-center bg-purple-400 hover:bg-purple-800 text-white font-bold py-2 px-4 rounded m-2" data-address="0x4Ada8a45198E4D3160e123E786419bF53B9E2AE3">
-            <img src="./icons/ethereum.png" alt="ETH" class="h-6 w-6 mr-2"> ETH
-        </button>
-        <!-- BTC -->
-        <button class="copy-btn flex items-center bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded m-2" data-address="bc1qkvtpqxaksvne0x0lxctgeg0ytl5ag8twq2y3z6">
-            <img src="./icons/bitcoin.png" alt="BTC" class="h-6 w-6 mr-2"> BTC
-        </button>
-        <!-- LTC -->
-        <button class="copy-btn flex items-center bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded m-2" data-address="ltc1qscn6unrtzpmqpnn44ajnpwwvut8dqv3s2hunr6">
-            <img src="./icons/coin.png" alt="LTC" class="h-6 w-6 mr-2"> LTC
-        </button>
-        <!-- Doge -->
-        <button class="copy-btn flex items-center bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded m-2" data-address="DA6eGSbQpFweaqQtT647ZJ459Sv9mLBkvZ">
-            <img src="./icons/dogecoin.png" alt="Doge" class="h-6 w-6 mr-2"> Doge
-        </button>
-        <!-- Solana -->
-        <button class="copy-btn flex items-center bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded m-2" data-address="ECscLcxVvYWFJqboknDE4Kqjep7U5UbX3CvEahytNXYJ">
-            <img src="./icons/solana.png" alt="Solana" class="h-6 w-6 mr-2"> Solana
-        </button>
-        <!-- USDT(TRC20) -->
-        <button class="copy-btn flex items-center bg-green-800 hover:bg-green-600 text-white font-bold py-2 px-4 rounded m-2" data-address="TMHgRbmQBRjR4dU1ywqGXFsmbdGgMTWm3F">
-            <img src="./icons/money.png" alt="USDT" class="h-6 w-6 mr-2"> USDT(TRC20)
-        </button>
-        <!-- USDT(ERC20) -->
-        <button class="copy-btn flex items-center bg-green-800 hover:bg-green-600 text-white font-bold py-2 px-4 rounded m-2" data-address="0x4Ada8a45198E4D3160e123E786419bF53B9E2AE3">
-            <img src="./icons/money.png" alt="USDT" class="h-6 w-6 mr-2"> USDT(ERC20)
-        </button>
-        <!-- USDC(TRC20) -->
-        <button class="copy-btn flex items-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded m-2" data-address="TMHgRbmQBRjR4dU1ywqGXFsmbdGgMTWm3F">
-            <img src="./icons/usdc.png" alt="USDC" class="h-6 w-6 mr-2"> USDC(TRC20)
-        </button>
-        <!-- USDC(ERC20) -->
-        <button class="copy-btn flex items-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded m-2" data-address="0x4Ada8a45198E4D3160e123E786419bF53B9E2AE3">
-            <img src="./icons/usdc.png" alt="USDC" class="h-6 w-6 mr-2"> USDC(ERC20)
-        </button>
-    </div>
-   <script> 
-   
-   document.addEventListener("DOMContentLoaded", function() {
-        const buttonContainer = document.getElementById("buttonContainer");
-        const offsetTop = buttonContainer.offsetTop;
-    
-        window.addEventListener("scroll", function() {
-            if (window.pageYOffset > offsetTop) {
-                buttonContainer.classList.add("sticky-buttons");
-                document.getElementById("textContainer").style.display = "none"; // Hide the text
-            } else {
-                buttonContainer.classList.remove("sticky-buttons");
-                document.getElementById("textContainer").style.display = "block"; // Show the text again
-            }
-        });
-    });
-   
-   </script> 
-   
-    
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const buttonContainer = document.getElementById("buttonContainer");
-    const stickyOffset = buttonContainer.offsetTop;
 
-    window.addEventListener("scroll", function() {
-        if (window.pageYOffset > stickyOffset) {
-            buttonContainer.classList.add("sticky-buttons");
+    <div id="buttonContainer" class="bg-white shadow-lg rounded-lg p-4 flex flex-wrap justify-between">
+       <!-- ETH -->
+       <button class="copy-btn flex items-center bg-purple-400 hover:bg-purple-800 text-white font-bold py-2 px-4 rounded m-2" data-address="0x4Ada8a45198E4D3160e123E786419bF53B9E2AE3">
+        <img src="./icons/ethereum.png" alt="ETH" class="h-6 w-6 mr-2"> ETH
+    </button>
+    <!-- BTC -->
+    <button class="copy-btn flex items-center bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded m-2" data-address="bc1qkvtpqxaksvne0x0lxctgeg0ytl5ag8twq2y3z6">
+        <img src="./icons/bitcoin.png" alt="BTC" class="h-6 w-6 mr-2"> BTC
+    </button>
+    <!-- LTC -->
+    <button class="copy-btn flex items-center bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded m-2" data-address="ltc1qscn6unrtzpmqpnn44ajnpwwvut8dqv3s2hunr6">
+        <img src="./icons/coin.png" alt="LTC" class="h-6 w-6 mr-2"> LTC
+    </button>
+    <!-- Doge -->
+    <button class="copy-btn flex items-center bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded m-2" data-address="DA6eGSbQpFweaqQtT647ZJ459Sv9mLBkvZ">
+        <img src="./icons/dogecoin.png" alt="Doge" class="h-6 w-6 mr-2"> Doge
+    </button>
+    <!-- Solana -->
+    <button class="copy-btn flex items-center bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded m-2" data-address="ECscLcxVvYWFJqboknDE4Kqjep7U5UbX3CvEahytNXYJ">
+        <img src="./icons/solana.png" alt="Solana" class="h-6 w-6 mr-2"> Solana
+    </button>
+    <!-- USDT(TRC20) -->
+    <button class="copy-btn flex items-center bg-green-800 hover:bg-green-600 text-white font-bold py-2 px-4 rounded m-2" data-address="TMHgRbmQBRjR4dU1ywqGXFsmbdGgMTWm3F">
+        <img src="./icons/money.png" alt="USDT" class="h-6 w-6 mr-2"> USDT(TRC20)
+    </button>
+    <!-- USDT(ERC20) -->
+    <button class="copy-btn flex items-center bg-green-800 hover:bg-green-600 text-white font-bold py-2 px-4 rounded m-2" data-address="0x4Ada8a45198E4D3160e123E786419bF53B9E2AE3">
+        <img src="./icons/money.png" alt="USDT" class="h-6 w-6 mr-2"> USDT(ERC20)
+    </button>
+    <!-- USDC(TRC20) -->
+    <button class="copy-btn flex items-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded m-2" data-address="TMHgRbmQBRjR4dU1ywqGXFsmbdGgMTWm3F">
+        <img src="./icons/usdc.png" alt="USDC" class="h-6 w-6 mr-2"> USDC(TRC20)
+    </button>
+    <!-- USDC(ERC20) -->
+    <button class="copy-btn flex items-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded m-2" data-address="0x4Ada8a45198E4D3160e123E786419bF53B9E2AE3">
+        <img src="./icons/usdc.png" alt="USDC" class="h-6 w-6 mr-2"> USDC(ERC20)
+    </button>
+    </div>
+</div>
+
+<!-- Sticky header (initially hidden) -->
+<div id="stickyHeader" class="sticky top-0 px-5 py-3">
+    <div id="stickyHeader" class="fixed top-0 left-0 w-full bg-white shadow-md hidden">
+        <div class="max-w-4xl mx-auto flex justify-between items-center px-4 py-2">
+            <!-- Ethereum Button -->
+            <button class="copy-btn bg-purple-400 hover:bg-purple-800 text-white font-bold py-1 px-2 rounded">
+                <img src="./icons/ethereum.png" alt="ETH" class="h-4 w-4 mr-1"> ETH
+            </button>
+            <!-- Bitcoin Button -->
+            <button class="copy-btn bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-2 rounded">
+                <img src="./icons/bitcoin.png" alt="BTC" class="h-4 w-4 mr-1"> BTC
+            </button>
+            <!-- Litecoin Button -->
+            <button class="copy-btn bg-gray-400 hover:bg-gray-500 text-white font-bold py-1 px-2 rounded">
+                <img src="./icons/coin.png" alt="LTC" class="h-4 w-4 mr-1"> LTC
+            </button>
+            <!-- Dogecoin Button -->
+            <button class="copy-btn bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-2 rounded">
+                <img src="./icons/dogecoin.png" alt="Doge" class="h-4 w-4 mr-1"> Doge
+            </button>
+            <!-- Solana Button -->
+            <button class="copy-btn bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded">
+                <img src="./icons/solana.png" alt="Solana" class="h-4 w-4 mr-1"> Solana
+            </button>
+            <!-- USDT (TRC20) Button -->
+            <button class="copy-btn bg-green-800 hover:bg-green-600 text-white font-bold py-1 px-2 rounded">
+                <img src="./icons/money.png" alt="USDT(TRC20)" class="h-4 w-4 mr-1"> USDT(TRC20)
+            </button>
+            <!-- USDT (ERC20) Button -->
+            <button class="copy-btn bg-green-800 hover:bg-green-600 text-white font-bold py-1 px-2 rounded">
+                <img src="./icons/money.png" alt="USDT(ERC20)" class="h-4 w-4 mr-1"> USDT(ERC20)
+            </button>
+            <!-- USDC (TRC20) Button -->
+            <button class="copy-btn bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded">
+                <img src="./icons/usdc.png" alt="USDC(TRC20)" class="h-4 w-4 mr-1"> USDC(TRC20)
+            </button>
+            <!-- USDC (ERC20) Button -->
+            <button class="copy-btn bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded">
+                <img src="./icons/usdc.png" alt="USDC(ERC20)" class="h-4 w-4 mr-1"> USDC(ERC20)
+            </button>
+        </div>
+    </div>
+    
+</div>
+
+<script>
+    // JavaScript for sticky header transition
+    window.onscroll = function() {
+        var header = document.getElementById('stickyHeader');
+        var scrollPosition = window.scrollY || document.documentElement.scrollTop;
+    
+        if (scrollPosition > 100) { // Adjust the 100 value to the height you want the transition to start
+            header.classList.add('sticky-active');
         } else {
-            buttonContainer.classList.remove("sticky-buttons");
+            header.classList.remove('sticky-active');
         }
-    });
-});
-</script>
+    };
+    </script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {

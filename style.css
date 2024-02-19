@@ -96,27 +96,33 @@ header {
     color: purple;
   }
   
-  #buttonContainer {
-    transition: all 0.3s ease;
-}
-
-.sticky-buttons {
+ /* Transition for the sticky container */
+ .sticky-container {
+    transition: top 0.5s, padding 0.5s;
     position: fixed;
-    top: 0;
+    top: -100%; /* Initially offscreen */
     left: 0;
     right: 0;
-    background-color: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    display: flex;
-    justify-content: center;
-    padding: 10px 0;
-    z-index: 1000;
-    flex-wrap: nowrap;
-    overflow-x: auto;
+    background-color: #4B5563; /* Tailwind gray-700 */
+    z-index: 50;
 }
 
-.sticky-buttons .copy-btn {
-    padding: 8px 16px;
-    margin: 0 10px;
-    font-size: 0.75rem;
+/* Adjusted styles for when sticky is active */
+.sticky-active {
+    top: 0; /* Stick to the top */
+    padding: 0.5rem 0; /* Smaller padding */
+}
+
+/* Hide the titles when sticky is active */
+.sticky-container h2,
+.sticky-container h5 {
+    display: none;
+}
+
+/* Tailwind utility classes for buttons */
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
 }
