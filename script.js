@@ -396,15 +396,28 @@ downloadInvoiceBtn.addEventListener('click', function() {
     
     submitTrxidBtn.addEventListener('click', function() {
         const trxid = trxidInput.value.trim();
-        if (trxid) {
-            generatePDF(trxid);
-            // Assuming generatePDF is asynchronous and doesn't block the execution,
-            // you might want to set a timeout or wait for a specific event indicating the PDF has been generated.
-            // For simplicity, let's just reload the page immediately here.
-            setTimeout(() => { window.location.reload(); }, 1000); // Adjust delay as needed
-        } else {
+        if (!trxid) {
             alert('Please complete the payment and submit your TRXID.');
+            return; // Exit the function if TRXID is missing
         }
+    
+        // Additional validation to check if all required fields are filled
+        let allFieldsFilled = true;
+        document.querySelectorAll('.account').forEach((account) => {
+            account.querySelectorAll('input[required], select[required]').forEach((field) => {
+                if (!field.value) {
+                    allFieldsFilled = false;
+                }
+            });
+        });
+    
+        if (!allFieldsFilled) {
+            alert('Please fill out all required fields in each account section.');
+            return; // Prevent further execution if any field is empty
+        }
+    
+        // If validation passes, proceed with PDF generation
+        generatePDF(trxid);
     });
     
     
