@@ -189,17 +189,17 @@ function calculatePriceForAccount(challengeType, swapType, stepType, sizeOfAccou
     <!-- Client Name -->
     <div class="option-group">
         <label class="block text-white text-sm mb-1">Name of the Client:</label>
-        <input type="text" class="client-name bg-purple-700 placeholder-white text-white rounded-md p-1 w-full text-sm" placeholder="Enter name">
+        <input type="text" class="client-name bg-purple-700 placeholder-white text-white rounded-md p-1 w-full text-sm" placeholder="Enter name" required>
     </div>
     <!-- Client Email -->
     <div class="option-group">
         <label class="block text-white text-sm mb-1">Email of the Client:</label>
-        <input type="email" class="client-email bg-purple-700 placeholder-white text-white rounded-md p-1 w-full text-sm" placeholder="Enter email">
+        <input type="email" class="client-email bg-purple-700 placeholder-white text-white rounded-md p-1 w-full text-sm" placeholder="Enter email" required>
     </div>
     <!-- Client Country -->
     <div class="option-group">
         <label class="block text-white text-sm mb-1">Country of the Client:</label>
-        <input type="text" class="client-country bg-purple-700 placeholder-white text-white rounded-md p-1 w-full text-sm" placeholder="Enter country">
+        <input type="text" class="client-country bg-purple-700 placeholder-white text-white rounded-md p-1 w-full text-sm" placeholder="Enter country" required>
     </div>
     <!-- Challenge Type -->
     <div class="option-group">
