@@ -186,82 +186,89 @@ function calculatePriceForAccount(challengeType, swapType, stepType, sizeOfAccou
     accountDiv.innerHTML = `
     <div class="flex flex-wrap md:flex-nowrap">
     <div class="left-options space-y-4 flex-1">
+    <!-- Client Name -->
     <div class="option-group">
-    <label class="block text-white text-xl mb-2">Name of the Client:</label>
-    <input type="text" class="client-name bg-purple-700 placeholder-white text-black rounded-md p-2 w-full" placeholder="Enter name">
-
+        <label class="block text-white text-sm mb-1">Name of the Client:</label>
+        <input type="text" class="client-name bg-purple-700 placeholder-white text-white rounded-md p-1 w-full text-sm" placeholder="Enter name">
     </div>
+    <!-- Client Email -->
     <div class="option-group">
-    <label class="block text-white text-xl mb-2">Email of the Client:</label>
-    <input type="email" class="client-email bg-purple-700 placeholder-white text-black rounded-md p-2 w-full" placeholder="Enter email">
-
+        <label class="block text-white text-sm mb-1">Email of the Client:</label>
+        <input type="email" class="client-email bg-purple-700 placeholder-white text-white rounded-md p-1 w-full text-sm" placeholder="Enter email">
     </div>
+    <!-- Client Country -->
     <div class="option-group">
-    <label class="block text-white text-xl mb-2">Country of the Client:</label>
-    <input type="text" class="client-country bg-purple-700 placeholder-white text-black rounded-md p-2 w-full" placeholder="Enter country">
-
+        <label class="block text-white text-sm mb-1">Country of the Client:</label>
+        <input type="text" class="client-country bg-purple-700 placeholder-white text-white rounded-md p-1 w-full text-sm" placeholder="Enter country">
     </div>
-        <div class="option-group">
-            <label class="block text-white text-xl mb-2">Challenge Type:</label>
-            <select class="challengeType w-full rounded-md bg-purple-700 border border-purple-600 text-white py-2 px-4">
-                <option value="stellar">Stellar</option>
-                <option value="evaluation">Evaluation</option>
-                <option value="express">Express</option>
-            </select>
-        </div>
-        <div class="option-group">
-            <label class="block text-white text-xl mb-2">Swap Type:</label>
-            <select class="swapType w-full rounded-md bg-purple-700 border border-purple-600 text-white py-2 px-4">
-                <option value="swap">Swap</option>
-                <option value="swapFree">Swap Free</option>
-            </select>
-        </div>
-        <div class="option-group">
-            <label class="block text-white text-xl mb-2">Step Type:</label>
-            <select class="stepType w-full rounded-md bg-purple-700 border border-purple-600 text-white py-2 px-4"></select>
-        </div>
-        <div class="option-group">
-            <label class="block text-white text-xl mb-2">Account Size:</label>
-            <select class="sizeOfAccount w-full rounded-md bg-purple-700 border border-purple-600 text-white py-2 px-4">
-                <option value="6K">6K</option>
-                <option value="15K">15K</option>
-                <option value="25K">25K</option>
-                <option value="50K">50K</option>
-                <option value="100K">100K</option>
-                <option value="200K">200K</option>
-            </select>
-        </div>
-        <div class="option-group">
-            <label class="block text-white text-xl mb-2">Platform:</label>
-            <select class="platform w-full rounded-md bg-purple-700 border border-purple-600 text-white py-2 px-4">
-                <option value="mt4">MT4</option>
-                <option value="mt5">MT5</option>
-            </select>
-        </div>
-        <div class="option-group">
-            <label class="block text-white text-xl mb-2">Broker:</label>
-            <select class="broker w-full rounded-md bg-purple-700 border border-purple-600 text-white py-2 px-4">
-                <option value="growthnext">GrowthNext</option>
-                <option value="fundednext">FundedNext</option>
-            </select>
-        </div>
+    <!-- Challenge Type -->
+    <div class="option-group">
+        <label class="block text-white text-sm mb-1">Challenge Type:</label>
+        <select class="challengeType w-full rounded-md bg-purple-700 text-white py-1 px-2 text-sm">
+            <option value="stellar">Stellar</option>
+            <option value="evaluation">Evaluation</option>
+            <option value="express">Express</option>
+        </select>
     </div>
+    <!-- Swap Type -->
+    <div class="option-group">
+        <label class="block text-white text-sm mb-1">Swap Type:</label>
+        <select class="swapType w-full rounded-md bg-purple-700 text-white py-1 px-2 text-sm">
+            <option value="swap">Swap</option>
+            <option value="swapFree">Swap Free</option>
+        </select>
+    </div>
+    <!-- Step Type -->
+    <div class="option-group">
+        <label class="block text-white text-sm mb-1">Step Type:</label>
+        <select class="stepType w-full rounded-md bg-purple-700 text-white py-1 px-2 text-sm"></select>
+    </div>
+    <!-- Account Size -->
+    <div class="option-group">
+        <label class="block text-white text-sm mb-1">Account Size:</label>
+        <select class="sizeOfAccount w-full rounded-md bg-purple-700 text-white py-1 px-2 text-sm">
+            <option value="6K">6K</option>
+            <option value="15K">15K</option>
+            <option value="25K">25K</option>
+            <option value="50K">50K</option>
+            <option value="100K">100K</option>
+            <option value="200K">200K</option>
+        </select>
+    </div>
+    <!-- Platform -->
+    <div class="option-group">
+        <label class="block text-white text-sm mb-1">Platform:</label>
+        <select class="platform w-full rounded-md bg-purple-700 text-white py-1 px-2 text-sm">
+            <option value="mt4">MT4</option>
+            <option value="mt5">MT5</option>
+        </select>
+    </div>
+    <!-- Broker -->
+    <div class="option-group">
+        <label class="block text-white text-sm mb-1">Broker:</label>
+        <select class="broker w-full rounded-md bg-purple-700 text-white py-1 px-2 text-sm">
+            <option value="growthnext">GrowthNext</option>
+            <option value="fundednext">FundedNext</option>
+        </select>
+    </div>
+</div>
+    
     <div class="right-options space-y-4 flex-1 mt-4 md:mt-0 md:ml-40">
      
     <!-- Addon Checkboxes with data-label attributes -->
-<div class="checkbox-group text-xl">
+<div class="checkbox-group text-md">
     <input type="checkbox" id="lifeTimePayout-1" name="lifeTimePayout" value="lifeTimePayout" class="rounded text-purple-500 focus:ring-blue-400" data-label="95% Life Time Payout">
     <label for="lifeTimePayout-1" class="text-white ml-2">95% Life Time Payout</label>
 </div>
-<div class="checkbox-group text-xl">
+<div class="checkbox-group text-md">
     <input type="checkbox" id="noMinimumDays-1" name="noMinimumDays" value="noMinimumDays" class="rounded text-blue-500 focus:ring-blue-400" data-label="No Minimum Trading Days">
     <label for="noMinimumDays-1" class="text-white ml-2">No Minimum Trading Days</label>
 </div>
-<div class="checkbox-group text-xl">
+<div class="checkbox-group text-md">
     <input type="checkbox" id="125Refund-1" name="125Refund" value="125Refund" class="rounded text-blue-500 focus:ring-blue-400" data-label="125% Refund">
     <label for="125Refund-1" class="text-white ml-2">125% Refund</label>
 </div>
-<div class="checkbox-group text-xl">
+<div class="checkbox-group text-md">
     <input type="checkbox" id="refund-1" name="refund" value="refund" class="rounded text-blue-500 focus:ring-blue-400" data-label="150% Refund">
     <label for="refund-1" class="text-white ml-2">150% Refund</label>
 </div>

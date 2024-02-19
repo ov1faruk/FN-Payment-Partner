@@ -64,12 +64,24 @@
                 </h1>
             </div>
             
+           
             <!-- Social Buttons -->
-            <div class="social-buttons flex justify-center mt-4">
-                <a href="https://facebook.com" target="_blank" class="mx-2 bg-blue-600 text-white font-bold py-2 px-4 rounded-full shadow-lg hover:bg-blue-700 transition duration-300 ease-in-out" style="box-shadow: 0 0 5px #4267B2;">Facebook</a>
-                <a href="https://twitter.com" target="_blank" class="mx-2 bg-blue-400 text-white font-bold py-2 px-4 rounded-full shadow-lg hover:bg-blue-500 transition duration-300 ease-in-out" style="box-shadow: 0 0 5px #1DA1F2;">Twitter</a>
-                <a href="https://discord.com" target="_blank" class="mx-2 bg-indigo-500 text-white font-bold py-2 px-4 rounded-full shadow-lg hover:bg-indigo-600 transition duration-300 ease-in-out" style="box-shadow: 0 0 5px #7289DA;">Discord</a>
-            </div>
+<div class="social-buttons flex justify-center mt-4">
+    <a href="https://www.facebook.com/fundednext" target="_blank" class="mx-2 bg-white text-white font-bold py-2 px-4 rounded-full shadow-lg hover:bg-gray-400 transition duration-300 ease-in-out" style="box-shadow: 0 0 5px #4267B2;">
+        <img src="./icons/fb.png" alt="Facebook" style="height: 24px; width: 24px;">
+    </a>
+    <a href="https://x.com/FundedNext" target="_blank" class="mx-2 bg-white text-white font-bold py-2 px-4 rounded-full shadow-lg hover:bg-gray-400 transition duration-300 ease-in-out" style="box-shadow: 0 0 5px #1DA1F2;">
+        <img src="./icons/x.png" alt="X" style="height: 24px; width: 24px;">
+    </a>
+    <a href="https://discord.gg/fundednext-945622549373526056" target="_blank" class="mx-2 bg-white text-white font-bold py-2 px-4 rounded-full shadow-lg hover:bg-gray-400 transition duration-300 ease-in-out" style="box-shadow: 0 0 5px #7289DA;">
+        <img src="./icons/discord.png" alt="Discord" style="height: 24px; width: 24px;">
+    </a>
+    <!-- Telegram Button -->
+    <a href="https://t.me/fnpartnerbot" target="_blank" class="mx-2 bg-white text-white font-bold py-2 px-4 rounded-full shadow-lg hover:bg-gray-400 transition duration-300 ease-in-out" style="box-shadow: 0 0 5px #0088cc;">
+        <img src="./icons/tg.png" alt="Telegram" style="height: 24px; width: 24px;">
+    </a>
+</div>
+
         </header>
         
         
@@ -102,7 +114,7 @@
   <body class="bg-gray-900 font-sans leading-normal tracking-normal text-white">
 
     <div class="mx-auto mt-8">
-        <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-4 text-black">
+        <div class="max-w-5xl mx-auto bg-white shadow-lg rounded-lg p-4 text-black">
             <!-- Text Container -->
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-semibold">Payment Addresses</h2>
@@ -149,20 +161,56 @@
         </div>
     </div>
 
+    <div id="copySuccessPopup" class="modal">
+        <div class="modal-content">
+            <p id="copyMessage">Address copied to clipboard!</p>
+            <p id="currencyInfo"></p> <!-- Placeholder for currency name and address -->
+            <button id="closeModal">Okay</button>
+        </div>
+    </div>
+    
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Function to show the modal with a smooth animation
+    function showModal() {
+        const modal = document.getElementById('copySuccessPopup');
+        modal.style.display = "flex";
+        setTimeout(() => { // Timeout to ensure the display: flex applies first
+            modal.style.opacity = "1";
+            modal.querySelector('.modal-content').style.transform = "scale(1)";
+            modal.querySelector('.modal-content').style.opacity = "1";
+        }, 10); // Short delay to ensure styles apply in sequence
+    }
+
+    // Function to hide the modal with a smooth animation
+    function hideModal() {
+        const modal = document.getElementById('copySuccessPopup');
+        modal.querySelector('.modal-content').style.transform = "scale(0.9)";
+        modal.querySelector('.modal-content').style.opacity = "0";
+        modal.style.opacity = "0";
+        setTimeout(() => {
+            modal.style.display = "none";
+        }, 400); // Match the duration of the CSS transitions
+    }
+
+    // Event listener for copy buttons
     document.querySelectorAll('.copy-btn').forEach(button => {
         button.addEventListener('click', function() {
-            navigator.clipboard.writeText(button.getAttribute('data-address')).then(() => {
-                // You can replace this alert with a more subtle notification
-                alert('Address copied to clipboard!');
-            }).catch(err => {
-                console.error('Error in copying text: ', err);
-                alert('Failed to copy address.');
-            });
+            const address = button.getAttribute('data-address');
+            // Show modal with currency info
+            document.getElementById('currencyInfo').textContent = `${address}`;
+            showModal(); // Use the showModal function to display the modal smoothly
         });
     });
+
+    // Close modal when "Okay" button is clicked, using the hideModal function
+    document.getElementById('closeModal').addEventListener('click', function() {
+        hideModal(); // Use the hideModal function to close the modal smoothly
+    });
 });
+
+
 </script>
   
 
