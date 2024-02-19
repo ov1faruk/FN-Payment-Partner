@@ -52,13 +52,19 @@
     
 </head>
 <body class="bg-gray-900 font-sans leading-normal tracking-normal text-white">
+   
+
     <div class="content-wrapper">
-        <header class="text-center p-20 mb-4 shadow flex flex-col justify-center items-center" style="background: rgba(0, 0, 0, 0.5);">
-            <!-- Logo and Title Container -->
+        <header class="relative text-center p-20 mb-4 shadow flex flex-col justify-center items-center" style="background: rgba(0, 0, 0, 0.5); min-height: 280px;">
+            <!-- Video Background -->
+            <video autoplay loop muted playsinline class="header-video" style="position: absolute; z-index: -1; width: 1920px; height: 280px; object-fit: cover;">
+                <source src="./icons/hv.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            
+            <!-- Existing Header Content Here -->
             <div class="flex justify-center items-center w-full">
-                <!-- Logo Image -->
                 <img src="https://fundednext.fra1.digitaloceanspaces.com/competion-funded-next-logo.svg" alt="Logo" class="h-16 w-auto">
-                <!-- Title -->
                 <h1 id="pageTitle" class="text-5xl font-bold ml-4 mb-2.5" style="background: linear-gradient(to right, rgb(247, 172, 247), rgb(180, 180, 255), white); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
                     Payment Partner Portal
                 </h1>
@@ -235,13 +241,22 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                     </div>
                     </div>
+
+                    <img src="./icons/brand-img.png" alt="Descriptive Alt Text" class="mx-auto mr-20 mt-4 w-50" style="height: auto;">
+
                 </div>
+
+                
+
             </div>
         </div>
     </div>
 
+
     <script src="script.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+    
+
+      
  
 
 </body>

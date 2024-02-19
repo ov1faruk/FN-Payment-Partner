@@ -124,7 +124,7 @@ header {
     transform: scale(0.9); /* Start slightly scaled down */
     opacity: 0; /* Start fully transparent */
     transition: transform 0.4s ease, opacity 0.4s ease; /* Smooth transitions */
-    color: purple; /* Set text color to black */
+    color: purple; /* Set text color to purple */
 }
 
 #closeModal {
@@ -145,7 +145,7 @@ header {
 .social-buttons a {
     display: inline-block;
     margin: 0 8px;
-    border-radius: 50%;
+    border-radius: 10%;
     padding: 8px;
     transition: background-color 0.3s ease;
     box-shadow: 0 0 5px #4267B2; /* Initial shadow */
@@ -201,4 +201,6 @@ header {
     border: 2px solid transparent;
     border-radius: 8px; /* Adjust as needed */
 }
+
+
 
