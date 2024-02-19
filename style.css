@@ -96,33 +96,4 @@ header {
     color: purple;
   }
   
- /* Transition for the sticky container */
- .sticky-container {
-    transition: top 0.5s, padding 0.5s;
-    position: fixed;
-    top: -100%; /* Initially offscreen */
-    left: 0;
-    right: 0;
-    background-color: #4B5563; /* Tailwind gray-700 */
-    z-index: 50;
-}
-
-/* Adjusted styles for when sticky is active */
-.sticky-active {
-    top: 0; /* Stick to the top */
-    padding: 0.5rem 0; /* Smaller padding */
-}
-
-/* Hide the titles when sticky is active */
-.sticky-container h2,
-.sticky-container h5 {
-    display: none;
-}
-
-/* Tailwind utility classes for buttons */
-.button-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.5rem;
-}
+ 
