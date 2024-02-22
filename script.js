@@ -337,31 +337,7 @@ downloadInvoiceBtn.addEventListener('click', function() {
         trxidInputContainer.style.display = 'block';
     });
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyD9qHE9rfot3_nJD3xvysnenkjaV7MkOoA",
-        authDomain: "fnpaymentportal.firebaseapp.com",
-        projectId: "fnpaymentportal",
-        storageBucket: "fnpaymentportal.appspot.com",
-        messagingSenderId: "472254280172",
-        appId: "1:472254280172:web:797757ac5c172a221450c9",
-        measurementId: "G-LLZWTN117B"
-    };
-  
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-
-    // Check authentication state when the script loads
-    auth.onAuthStateChanged((user) => {
-        if (!user) {
-            // User is not signed in, redirect to login page
-            window.location.href = '/FN-Payment-Partner/login.html'; // Adjust the path as needed
-        } else {
-            // User is signed in, display the page or do any authenticated user stuff
-            console.log('User is signed in');
-        }
-    });
-
+    
     
     // Event listener for the submit button click event
 submitTrxidBtn.addEventListener('click', function() {
