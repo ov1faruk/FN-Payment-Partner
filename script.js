@@ -337,88 +337,97 @@ downloadInvoiceBtn.addEventListener('click', function() {
         trxidInputContainer.style.display = 'block';
     });
 
-    // submitTrxidBtn.addEventListener('click', function() {
-    //     const trxid = trxidInput.value.trim();
-    //     if (trxid) {
-    //         let accountsData = []; // Array to hold data for all accounts
+
     
-    //         // Iterate through each account container
-    //         document.querySelectorAll('.account').forEach((account) => {
-    //             let accountData = {
-    //                 clientName: account.querySelector('.client-name').value,
-    //                 clientEmail: account.querySelector('.client-email').value,
-    //                 clientCountry: account.querySelector('.client-country').value,
-    //                 challengeType: account.querySelector('.challengeType').value,
-    //                 swapType: account.querySelector('.swapType').value,
-    //                 stepType: account.querySelector('.stepType').value,
-    //                 sizeOfAccount: account.querySelector('.sizeOfAccount').value,
-    //                 platform: account.querySelector('.platform').value,
-    //                 broker: account.querySelector('.broker').value,
-    //                 addons: Array.from(account.querySelectorAll('input[type="checkbox"]:checked')).map(addon => addon.value),
-    //                 price: calculatePriceForAccount(
-    //                     account.querySelector('.challengeType').value,
-    //                     account.querySelector('.swapType').value,
-    //                     account.querySelector('.stepType').value,
-    //                     account.querySelector('.sizeOfAccount').value,
-    //                     Array.from(account.querySelectorAll('input[type="checkbox"]'))
-    //                 ).toFixed(2), // Assuming you have a function to calculate price
-    //                 trxid: trxid
-    //             };
-    //             accountsData.push(accountData);
-    //         });
-    
-    //         // Send accountsData to the Google Sheets API or Google Apps Script Web App
-    //         sendAccountsDataToGoogleSheet(accountsData);
-    //     } else {
-    //         alert('Please complete the payment and submit your TRXID.');
-    //     }
-    // });
-    
-    // function sendAccountsDataToGoogleSheet(accountsData) {
-    //     fetch('https://script.google.com/macros/s/AKfycby2oarIAFdYPhfFfxPYuzLrWkhsmA4v5V25CEyPygD3np0W8MFmNacZ4XLsTOuZK6Ba/exec', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify(accountsData)
-    //     })
-    //     .then(response => response.json())
-    //     .then(result => {
-    //         console.log(result);
-    //         alert('Data submitted successfully.');
-    //         window.location.reload(); // Reload or redirect as needed
-    //     })
-    //     .catch(error => {
-    //         console.error('Error:', error);
-    //         alert('An error occurred. Please try again.');
-    //     });
-    // }
-    
-    submitTrxidBtn.addEventListener('click', function() {
-        const trxid = trxidInput.value.trim();
-        if (!trxid) {
-            alert('Please complete the payment and submit your TRXID.');
-            return; // Exit the function if TRXID is missing
-        }
-    
-        // Additional validation to check if all required fields are filled
+    // Event listener for the submit button click event
+submitTrxidBtn.addEventListener('click', function() {
+    const trxid = trxidInput.value.trim();
+
+    // Check if the TRXID is provided
+    if (!trxid) {
+        alert('Please complete the payment and submit your TRXID.');
+        return; // Exit the function if TRXID is missing
+    }
+
+    // Get the currently logged-in user from Firebase Authentication
+    const user = firebase.auth().currentUser;
+
+    if (user) {
+        // If a user is logged in, proceed with form submission
+        const loggedInUserEmail = user.email; // Fetching the logged-in user's email
         let allFieldsFilled = true;
+        const accountData = []; // Array to hold all account data
+
+        // Iterate over each account section to gather data
         document.querySelectorAll('.account').forEach((account) => {
-            account.querySelectorAll('input[required], select[required]').forEach((field) => {
-                if (!field.value) {
-                    allFieldsFilled = false;
-                }
+            const clientName = account.querySelector('.client-name').value;
+            const clientEmail = account.querySelector('.client-email').value;
+            const clientCountry = account.querySelector('.client-country').value;
+            const challengeType = account.querySelector('.challengeType').value;
+            const swapType = account.querySelector('.swapType').value;
+            const stepType = account.querySelector('.stepType').value;
+            const sizeOfAccount = account.querySelector('.sizeOfAccount').value;
+            const platform = account.querySelector('.platform').value;
+            const broker = account.querySelector('.broker').value;
+            const addons = Array.from(account.querySelectorAll('input[type="checkbox"]:checked')).map(addon => addon.getAttribute('data-label')).join(', ');
+            const price = calculatePriceForAccount(challengeType, swapType, stepType, sizeOfAccount, account.querySelectorAll('input[type="checkbox"]')).toFixed(2);
+
+            if (!clientName || !clientEmail || !clientCountry) {
+                allFieldsFilled = false;
+            }
+
+            // Add account information along with logged-in user email and TRXID to the accountData array
+            accountData.push({
+                loggedInUserEmail,
+                trxid,
+                clientName,
+                clientEmail,
+                clientCountry,
+                challengeType,
+                swapType,
+                stepType,
+                sizeOfAccount,
+                platform,
+                broker,
+                addons,
+                price
             });
         });
-    
+
         if (!allFieldsFilled) {
             alert('Please fill out all required fields in each account section.');
             return; // Prevent further execution if any field is empty
         }
-    
-        // If validation passes, proceed with PDF generation
-        generatePDF(trxid);
-    });
+
+        // Send the collected account data to Google Sheets via SheetDB API
+        fetch('https://sheetdb.io/api/v1/2h2tsh8eol42g', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ data: accountData }),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Success:', data);
+            alert('Data submitted successfully. Downloading invoice...');
+            generatePDF(trxid); // Generate and download the invoice PDF
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            alert('There was an error submitting your data. Please try again.');
+        });
+    } else {
+        // No user is signed in
+        alert('Please log in to submit the form.');
+    }
+});
+
     
     
 
