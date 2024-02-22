@@ -18,7 +18,7 @@
     <!-- Link to your custom stylesheet -->
     <link rel="stylesheet" href="style.css">
 
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <!-- <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
     <script type="module">
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -48,7 +48,7 @@
                 console.log('User is signed in');
             }
         });
-    </script>
+    </script> -->
 
 <script src="script.js"></script>
     
@@ -238,6 +238,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         <p id="totalPrice" class="text-lg font-bold text-right">Total Price: $0</p>
                         <button id="downloadInvoiceBtn" class="btn bg-purple-700 hover:bg-purple-800 text-white font-semibold py-2 px-4 rounded shadow mt-4">Download Invoice</button>
                         <div id="trxidInputContainer" class="mt-4 text-black" style="display:none;">
+
+                            <input type="text" id="refby" class="input input-bordered w-full mb-4" placeholder="Enter your Email">
+
                             <input type="text" id="trxidInput" class="input input-bordered w-full" placeholder="Complete the Payment and Submit Your TRXID">
                             <button id="submitTrxidBtn" class="btn bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded shadow mt-4">Submit</button>
                         </div>
