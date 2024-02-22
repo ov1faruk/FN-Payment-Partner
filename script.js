@@ -337,97 +337,121 @@ downloadInvoiceBtn.addEventListener('click', function() {
         trxidInputContainer.style.display = 'block';
     });
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+
+const firebaseScript = document.createElement('script');
+firebaseScript.src = "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+firebaseScript.onload = initializeFirebase;
+document.head.appendChild(firebaseScript);
+
+function initializeFirebase() {
+    // Initialize Firebase
+    const firebaseConfig = {
+        apiKey: "AIzaSyD9qHE9rfot3_nJD3xvysnenkjaV7MkOoA",
+        authDomain: "fnpaymentportal.firebaseapp.com",
+        projectId: "fnpaymentportal",
+        storageBucket: "fnpaymentportal.appspot.com",
+        messagingSenderId: "472254280172",
+        appId: "1:472254280172:web:797757ac5c172a221450c9",
+        measurementId: "G-LLZWTN117B"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    // Proceed with Firebase-related code
+    const auth = firebase.auth();
+
+    // Event listener for the submit button click event
+    submitTrxidBtn.addEventListener('click', function() {
+        const trxid = trxidInput.value.trim();
+    
+        // Check if the TRXID is provided
+        if (!trxid) {
+            alert('Please complete the payment and submit your TRXID.');
+            return; // Exit the function if TRXID is missing
+        }
+    
+        // Get the currently logged-in user from Firebase Authentication
+        const user = firebase.auth().currentUser;
+    
+        if (user) {
+            // If a user is logged in, proceed with form submission
+            const loggedInUserEmail = user.email; // Fetching the logged-in user's email
+            let allFieldsFilled = true;
+            const accountData = []; // Array to hold all account data
+    
+            // Iterate over each account section to gather data
+            document.querySelectorAll('.account').forEach((account) => {
+                const clientName = account.querySelector('.client-name').value;
+                const clientEmail = account.querySelector('.client-email').value;
+                const clientCountry = account.querySelector('.client-country').value;
+                const challengeType = account.querySelector('.challengeType').value;
+                const swapType = account.querySelector('.swapType').value;
+                const stepType = account.querySelector('.stepType').value;
+                const sizeOfAccount = account.querySelector('.sizeOfAccount').value;
+                const platform = account.querySelector('.platform').value;
+                const broker = account.querySelector('.broker').value;
+                const addons = Array.from(account.querySelectorAll('input[type="checkbox"]:checked')).map(addon => addon.getAttribute('data-label')).join(', ');
+                const price = calculatePriceForAccount(challengeType, swapType, stepType, sizeOfAccount, account.querySelectorAll('input[type="checkbox"]')).toFixed(2);
+    
+                if (!clientName || !clientEmail || !clientCountry) {
+                    allFieldsFilled = false;
+                }
+    
+                // Add account information along with logged-in user email and TRXID to the accountData array
+                accountData.push({
+                    loggedInUserEmail,
+                    trxid,
+                    clientName,
+                    clientEmail,
+                    clientCountry,
+                    challengeType,
+                    swapType,
+                    stepType,
+                    sizeOfAccount,
+                    platform,
+                    broker,
+                    addons,
+                    price
+                });
+            });
+    
+            if (!allFieldsFilled) {
+                alert('Please fill out all required fields in each account section.');
+                return; // Prevent further execution if any field is empty
+            }
+    
+            // Send the collected account data to Google Sheets via SheetDB API
+            fetch('https://sheetdb.io/api/v1/2h2tsh8eol42g', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ data: accountData }),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Success:', data);
+                alert('Data submitted successfully. Downloading invoice...');
+                generatePDF(trxid); // Generate and download the invoice PDF
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('There was an error submitting your data. Please try again.');
+            });
+        } else {
+            // No user is signed in
+            alert('Please log in to submit the form.');
+        }
+    });
+}
+  
     
     // Event listener for the submit button click event
-submitTrxidBtn.addEventListener('click', function() {
-    const trxid = trxidInput.value.trim();
 
-    // Check if the TRXID is provided
-    if (!trxid) {
-        alert('Please complete the payment and submit your TRXID.');
-        return; // Exit the function if TRXID is missing
-    }
-
-    // Get the currently logged-in user from Firebase Authentication
-    const user = firebase.auth().currentUser;
-
-    if (user) {
-        // If a user is logged in, proceed with form submission
-        const loggedInUserEmail = user.email; // Fetching the logged-in user's email
-        let allFieldsFilled = true;
-        const accountData = []; // Array to hold all account data
-
-        // Iterate over each account section to gather data
-        document.querySelectorAll('.account').forEach((account) => {
-            const clientName = account.querySelector('.client-name').value;
-            const clientEmail = account.querySelector('.client-email').value;
-            const clientCountry = account.querySelector('.client-country').value;
-            const challengeType = account.querySelector('.challengeType').value;
-            const swapType = account.querySelector('.swapType').value;
-            const stepType = account.querySelector('.stepType').value;
-            const sizeOfAccount = account.querySelector('.sizeOfAccount').value;
-            const platform = account.querySelector('.platform').value;
-            const broker = account.querySelector('.broker').value;
-            const addons = Array.from(account.querySelectorAll('input[type="checkbox"]:checked')).map(addon => addon.getAttribute('data-label')).join(', ');
-            const price = calculatePriceForAccount(challengeType, swapType, stepType, sizeOfAccount, account.querySelectorAll('input[type="checkbox"]')).toFixed(2);
-
-            if (!clientName || !clientEmail || !clientCountry) {
-                allFieldsFilled = false;
-            }
-
-            // Add account information along with logged-in user email and TRXID to the accountData array
-            accountData.push({
-                loggedInUserEmail,
-                trxid,
-                clientName,
-                clientEmail,
-                clientCountry,
-                challengeType,
-                swapType,
-                stepType,
-                sizeOfAccount,
-                platform,
-                broker,
-                addons,
-                price
-            });
-        });
-
-        if (!allFieldsFilled) {
-            alert('Please fill out all required fields in each account section.');
-            return; // Prevent further execution if any field is empty
-        }
-
-        // Send the collected account data to Google Sheets via SheetDB API
-        fetch('https://sheetdb.io/api/v1/2h2tsh8eol42g', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ data: accountData }),
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Success:', data);
-            alert('Data submitted successfully. Downloading invoice...');
-            generatePDF(trxid); // Generate and download the invoice PDF
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-            alert('There was an error submitting your data. Please try again.');
-        });
-    } else {
-        // No user is signed in
-        alert('Please log in to submit the form.');
-    }
-});
 
     
     
