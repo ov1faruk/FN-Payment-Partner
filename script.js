@@ -337,7 +337,8 @@ downloadInvoiceBtn.addEventListener('click', function() {
         trxidInputContainer.style.display = 'block';
     });
 
-    
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
     
     // Event listener for the submit button click event
 submitTrxidBtn.addEventListener('click', function() {
