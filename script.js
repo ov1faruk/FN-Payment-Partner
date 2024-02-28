@@ -8,8 +8,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const refby = document.getElementById('refby');
 
     const officialDiscounts = {
-        smallAccount: 0, // 5% discount for small accounts
-        bigAccount: 0 // 10% discount for big accounts
+        smallAccount: 0.1, // 5% discount for small accounts
+        bigAccount: 0.1 // 10% discount for big accounts
     };
 
     let accountCount = 0;
