@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 
-    <!-- Tailwind CSS CDN -->
+    Tailwind CSS CDN
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@^2.0/dist/tailwind.min.css" rel="stylesheet">
     <!-- DaisyUI CDN (after Tailwind CSS) -->
     <script src="https://cdn.jsdelivr.net/npm/daisyui"></script>
@@ -171,7 +171,7 @@
 
     <div id="copySuccessPopup" class="modal">
         <div class="modal-content">
-            <p id="copyMessage">Address copied to clipboard!</p>
+            <p id="copyMessage"></p>
             <p id="currencyInfo"></p> <!-- Placeholder for currency name and address -->
             <button id="closeModal">Okay</button>
         </div>
@@ -206,9 +206,15 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.copy-btn').forEach(button => {
         button.addEventListener('click', function() {
             const address = button.getAttribute('data-address');
-            // Show modal with currency info
-            document.getElementById('currencyInfo').textContent = `${address}`;
-            showModal(); // Use the showModal function to display the modal smoothly
+            // Copy the address to the clipboard
+            navigator.clipboard.writeText(address).then(() => {
+                console.log('Address copied to clipboard:', address);
+                // Show modal with currency info
+                document.getElementById('currencyInfo').textContent = `Address copied: ${address}`;
+                showModal(); // Use the showModal function to display the modal smoothly
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
         });
     });
 
@@ -217,6 +223,7 @@ document.addEventListener('DOMContentLoaded', function() {
         hideModal(); // Use the hideModal function to close the modal smoothly
     });
 });
+
 
 
 </script>
